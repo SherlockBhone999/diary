@@ -1,14 +1,14 @@
-
-import React, {useEffect, useRef, useState, useContext} from 'react'
-import {Context} from '../DiaryContextProvider'
+/*
+import React,{useEffect, useRef, useState, useContext} from 'react'
+import {Context} from '../Diary'
 import * as d3 from 'd3'
 
 
 
 
-const PieChart = ({w})=>{
+const PieChart = ({w, pieData })=>{
 
-    const {dataOfTheMonthForPieChart} = useContext(Context)
+    //const dataOfTheMonthForPieChart = pieData
     
     
     
@@ -62,7 +62,7 @@ const PieChart = ({w})=>{
 
 
   
-    
+    const data = pieData
     
     const piedata = d3.pie().value(d => d )(data)
     
@@ -90,7 +90,7 @@ const PieChart = ({w})=>{
     
     
     
-  },[dataOfTheMonthForPieChart])
+  },[pieData])
   
   
   return <div>
@@ -100,13 +100,12 @@ const PieChart = ({w})=>{
 }
 
 export default PieChart
-
-/*
+*/
 
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
-
+/*
 const data = [
                 {item: 'A', count: 590},
                 {item: 'B', count: 291},
@@ -114,28 +113,28 @@ const data = [
                 {item: 'D', count: 145},
                 {item: 'E', count: 46}
              ]
+*/
 
-
-const PieChart = () => {
+const PieChart = ({pieData}) => {
 
 	const pieChart = useRef()
 
 	useEffect(()=>{
-
+    const data = pieData
 		// Get positions for each data object
 		const piedata = d3.pie().value(d => d.count)(data)
 		// Define arcs for graphing 
-		const arc = d3.arc().innerRadius(0).outerRadius(200)
+		const arc = d3.arc().innerRadius(0).outerRadius(100)
 
 		const colors = d3.scaleOrdinal(['#ffa822','#134e6f','#ff6150','#1ac0c6','#dee0e6'])
 
 		// Define the size and position of svg
 		const svg = d3.select(pieChart.current)
-						.attr('width', 600)
-						.attr('height', 600)
+						.attr('width', 220)
+						.attr('height', 220)
 						// .style('background-color','yellow')
 						.append('g')
-							.attr('transform','translate(300,300)')
+							.attr('transform','translate(110,110)')
 
 		// Add tooltip
 		const tooldiv = d3.select('#chartArea')
@@ -158,7 +157,7 @@ const PieChart = () => {
 					console.log(d)
 
 					tooldiv.style('visibility','visible')
-							.text(`${d.data.item}:` + `${d.data.count}`)
+							.text(`${d.data.tag}:` + `${d.data.count}`)
 				})
 				.on('mousemove', (e,d)=>{
 					tooldiv.style('top', (e.pageY-50) + 'px')
@@ -172,11 +171,9 @@ const PieChart = () => {
 
 	return (
 		<div id='chartArea'>
-			<svg ref={pieChart}></svg>
+			<svg ref={pieChart} ></svg>
 		</div>
 	)
 }
 
 export default PieChart;
-
-*/

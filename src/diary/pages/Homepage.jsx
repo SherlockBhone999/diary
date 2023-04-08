@@ -1,37 +1,44 @@
-import Navbar from '../components/Navbar'
-import Form from '../components/Form'
-import {useState} from 'react'
-import Notificationbar from '../components/Notificationbar'
 
+import { useState, useContext} from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Context } from '../Diary'
+import { allData } from '../fakedata2'
+const { current_month } = allData
 
+import QuotesBox from '../components/QuotesBox'
 
-
-const ChosenInterface = () =>{
-  const [interfaceType, setInterfaceType] = useState('choose')
-  
+export default function Homepage(){
+  const navigate = useNavigate()
+  const { setFormdata } = useContext(Context)
   return <div>
-  {
-    interfaceType==='choose'? <div>
-    <Notificationbar />
-    <button onClick={()=>setInterfaceType('write')}>Write</button> 
-    
-    </div> : <div>
-    <Form setInterfaceType={setInterfaceType} />
+  
+    <div>
+      <QuotesBox />
     </div>
     
-  }
-  </div>
+    <div>
+      <button onClick={()=>{
+        navigate('/write')
+        setFormdata({})
+      }}>write new</button>
+    </div>
+    
+    <div>
+      <button onClick={()=>{
+        navigate('/history')
+      }}>history</button>
+    </div>
+    
+    <div class='grid'>
+      
+      { current_month.days.map(day => {
+        return <button onClick={()=>{
+          setFormdata(day)
+          navigate('write')
+        }}>{day.day}</button>
+      })
+      }
+    </div>
   
-}
-
-
-function Homepage(){
-
-  
-  return <div>
-  <Navbar/>
-  <ChosenInterface />
   </div>
 }
-
-export default Homepage

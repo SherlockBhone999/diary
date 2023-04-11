@@ -22,12 +22,16 @@ const years = [
       {
         month : '1.2020',
         resolution : 'get a job',
+        resolution_fulfilled : 'no',
         comment : 'code code code',
         thoughts : ['i so horny', 'i want to spy on peoples'],
         pie_data : [
           {tag:'help mom', count : 30 }, 
-          {tag : 'code', count : 30 }, 
-          {tag : 'exercise', count : 22 }
+          {tag : 'code', count : 20 }, 
+          {tag : 'exercise', count : 22 },
+          {tag : 'sing' , count : 30 },
+          { tag : 'waste time on youtube : big ', count : 5 },
+          { tag : 'waste time in toilet' , count : 10 }
           ]
       },
       {
@@ -38,7 +42,7 @@ const years = [
         pie_data : [
           {tag : 'help mom', count :30 }, 
           { tag : 'code', count :30 }, 
-          {tag :'exercise', count : 22 }
+          {tag :'exercise', count : 10 }
           ]
       },
       {
@@ -60,7 +64,7 @@ const years = [
         pie_data : [
           {tag:'help mom', count : 30 }, 
           {tag : 'code', count : 30 }, 
-          {tag : 'exercise', count : 22 }
+          {tag : 'exercise', count : 30 }
           ]
       },
       {
@@ -69,9 +73,9 @@ const years = [
         comment : 'code code code',
         thoughts : ['i so horny', 'i want to spy on peoples'],
         pie_data : [
-          {tag : 'help mom', count :30 }, 
+          {tag : 'help mom', count :10 }, 
           { tag : 'code', count :30 }, 
-          {tag :'exercise', count : 22 }
+          {tag :'exercise', count : 20 }
           ]
       },
       {
@@ -236,14 +240,13 @@ const years = [
   
   
 const current_month = {
-  month : '1.2023',
+  month : '4.2023',
   resolution : 'get a job',
   comment : 'code code code',
   thoughts : ['i so horny', 'i want to spy on peoples'],
   days : [
     {
       day : '1.1.2023',
-      happiness_index : 5,
       thoughts : ['i want to get money without working', 'i want superpowers'],
       tags : [
         'help mom',
@@ -254,7 +257,6 @@ const current_month = {
     },
     {
       day : '2.1.2023',
-      happiness_index : 5,
       thoughts : ['i want to get money without working', 'i want superpowers'],
       tags : [
         'help mom',
@@ -265,7 +267,6 @@ const current_month = {
     },
     {
       day : '6.1.2023',
-      happiness_index : 5,
       thoughts : ['i want to bang ', 'i want immortality '],
       tags : [
         'help mom',

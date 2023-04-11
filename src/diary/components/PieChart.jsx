@@ -114,7 +114,10 @@ const data = [
                 {item: 'E', count: 46}
              ]
 */
+//const colorsArray = ['#ffa822','#134e6f','#ff6150','#1ac0c6','#dee0e6']
 
+const colorsArray = ['#22c55e', '#fde047',  '#f97316',  '#38bdf8', '#fb7185','#6366f1']
+//green-500 yellow-300 orange-500 sky-400 rose-400 indigo-500
 const PieChart = ({pieData}) => {
 
 	const pieChart = useRef()
@@ -126,7 +129,7 @@ const PieChart = ({pieData}) => {
 		// Define arcs for graphing 
 		const arc = d3.arc().innerRadius(0).outerRadius(100)
 
-		const colors = d3.scaleOrdinal(['#ffa822','#134e6f','#ff6150','#1ac0c6','#dee0e6'])
+		const colors = d3.scaleOrdinal(colorsArray)
 
 		// Define the size and position of svg
 		const svg = d3.select(pieChart.current)
@@ -141,7 +144,7 @@ const PieChart = ({pieData}) => {
 						  .append('div')
 						  .style('visibility','hidden')
 						  .style('position','absolute')
-						  .style('background-color','red')
+						  .style('background-color','gray')
 
 
 		// Draw pie
@@ -157,7 +160,7 @@ const PieChart = ({pieData}) => {
 					console.log(d)
 
 					tooldiv.style('visibility','visible')
-							.text(`${d.data.tag}:` + `${d.data.count}`)
+							.text(`${d.data.tag}: ` + `${d.data.count} ` + ' days')
 				})
 				.on('mousemove', (e,d)=>{
 					tooldiv.style('top', (e.pageY-50) + 'px')

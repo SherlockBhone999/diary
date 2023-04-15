@@ -1,10 +1,10 @@
 
 import Quill from 'quill'
 import "quill/dist/quill.snow.css"
-import {useCallback, useState, useEffect} from 'react'
+import {useCallback, useState, useEffect, useContext} from 'react'
 import axios from 'axios'
 import { pdfExporter } from 'quill-to-pdf'
-
+import { Context } from '../Diary'
 
 
 //////
@@ -33,14 +33,12 @@ const deltaa = {"ops":[{insert:"Bhone"},{ attributes:{bold:true},insert:"5.4.202
 
 export default function TextWriter({disable, setDisable}){
   const [quill,setQuill] = useState()
-  const [delta , setDelta ] = useState({})
-  const baseUrl = 'http://localhost:3000'
-  //const [ disable, setDisable ] = useState(false)
+  const { baseUrl, formdata, setFormdata } = useContext(Context)
+  
   
   const handleUpload = async (e) =>{
     e.preventDefault()
     const d = quill.getContents()
-    setDelta(d)
     const quillToPdfConfig = {
         exportAs: 'blob'
       };
@@ -79,6 +77,9 @@ export default function TextWriter({disable, setDisable}){
     <button class='m-2 p-2 bg-blue-400 rounded' onClick={()=>{
       quill.disable()
       setDisable(true)
+      const d = quill.getContents()
+      const data = { ...formdata, delta_data : d }
+      setFormdata(data)
     }}> Done </button>
     }
   </div>
@@ -89,13 +90,6 @@ export default function TextWriter({disable, setDisable}){
     </div>
   </div>
   
-  {/*
-  <div class='w-full fixed h-[9vh] bottom-0 left-0'>
-    <div class='h-full bg-gray-400 m-3'>
-      <button class='m-3 bg-blue-400 rounded p-2' onClick={handleUpload}>submit </button>
-    </div>
-  </div>
-  */}
   
   </div>
 }

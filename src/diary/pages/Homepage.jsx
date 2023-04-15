@@ -9,7 +9,7 @@ import QuotesBox from '../components/QuotesBox'
 
 export default function Homepage(){
   const navigate = useNavigate()
-  const { setFormdata } = useContext(Context)
+  const { setFormdata , currentMonthData } = useContext(Context)
   return <div>
   
     <div>
@@ -29,16 +29,35 @@ export default function Homepage(){
       }}>history</button>
     </div>
     
+    <div>
+      <button onClick={()=>{
+        navigate('/quotes')
+      }}>quotes</button>
+    </div>
+    
+    <div>
+      <button onClick={()=>{
+        navigate('/special_days')
+      }}>Days to be remembered</button>
+    </div>
+    
+    <div>
+      <button onClick={()=>{
+        navigate('/tags')
+      }}>tags</button>
+    </div>
+ {JSON.stringify(currentMonthData)}
+ { currentMonthData.days?
     <div class='grid'>
-      
-      { current_month.days.map(day => {
+      { currentMonthData.days.map(day => {
         return <button onClick={()=>{
           setFormdata(day)
           navigate('write')
         }}>{day.day}</button>
-      })
-      }
+      }) }
     </div>
-  
+  : null  
+ }
+ 
   </div>
 }

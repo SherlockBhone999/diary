@@ -7,7 +7,7 @@ import Historypage from './pages/Historypage'
 import SpecialDayspage from './pages/SpecialDayspage'
 import Writerpage from './pages/Writerpage'
 import Quotespage from './pages/Quotespage'
-import Readerpage from './pages/Readerpage'
+import Tagspage from './pages/Tagspage'
 
 import { allData } from './fakedata2'
 const { current_month } = allData
@@ -23,18 +23,53 @@ const App = () => {
     <Route path='/special_days' element={<SpecialDayspage />} />
     <Route path='/write' element={<Writerpage />} />
     <Route path='/quotes' element={<Quotespage />} />
-    <Route path='/read' element={<Readerpage />} />
+    <Route path='/tags' element={<Tagspage />} />
    </Routes>
   </BrowserRouter>
 }
 
 
+const fetchTaglist = (baseUrl, setTaglist ) => {
+  axios.get(`${baseUrl}/get_tag`)
+  .then(res => {
+    setTaglist(res.data)
+  })
+}
+
+const fetchQuotelist = (baseUrl, setQuotelist ) => {
+  axios.get(`${baseUrl}/get_quote`)
+  .then(res => {
+    setQuotelist(res.data)
+  })
+}
+
+const fetchCurrentMonthData = (baseUrl, setCurrentMonthData) => {
+  axios.get(`${baseUrl}/get_current_month`)
+  .then(res => {
+    setCurrentMonthData(res.data)
+  } )
+} 
+ 
+
+
 export default function Diary(){
   const baseUrl = 'http://localhost:3000'
   const [isAdmin, setIsAdmin ] = useState('')
-  const [currentMonthData , setCurrentMonthData ] = useState(current_month)
+  //for history, homepage
+  const [currentMonthData , setCurrentMonthData ] = useState({})
+  //for form, writer
   const [formdata , setFormdata ] = useState({})
+  //for tagspage, form
+  const [ taglist, setTaglist ] = useState([])
+  //for quotespage, quotebox
+  const [ quotelist , setQuotelist ] = useState([])
   
+  
+  useEffect(()=>{
+    fetchTaglist(baseUrl, setTaglist)
+    fetchQuotelist( baseUrl, setQuotelist )
+    fetchCurrentMonthData( baseUrl, setCurrentMonthData )
+  },[])
   
   return <Context.Provider value={{
     baseUrl,
@@ -44,7 +79,11 @@ export default function Diary(){
     setCurrentMonthData,
     formdata,
     setFormdata,
-    
+    taglist,
+    setTaglist,
+    quotelist,
+    setQuotelist,
+  
   }} >
     <App />
   </Context.Provider >

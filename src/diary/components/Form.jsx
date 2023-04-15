@@ -3,14 +3,14 @@
 import { useState, useContext, useRef, useEffect } from 'react'
 import { Context } from '../Diary'
 import TextWriter from './TextWriter'
-import { allData } from '../fakedata2'
-const { taglist } = allData
+import axios from 'axios'
 
 
 //tagfield
 const TagField = ({field, setField, disable }) => {
   const [newTag, setNewTag ] = useState('')
   const [recommandedList , setRecommandedList ] = useState([])
+  const { taglist } = useContext(Context)
   const inputRef = useRef()
   
   const add = () => {
@@ -30,13 +30,13 @@ const TagField = ({field, setField, disable }) => {
   const update = (e) => {
     const input = e.target.value
     setNewTag(input)
-    const arr = taglist.filter(tag => tag.includes(input))
+    const arr = taglist.filter(item => item.tag.includes(input) )
     setRecommandedList(arr)
   }
   
-  const addRecommandedTag = (str) => {
+  const addRecommandedTag = (obj) => {
     const arr= [...field]
-    arr.push(str)
+    arr.push(obj.tag)
     setField(arr)
     setNewTag('')
     setRecommandedList([])
@@ -73,8 +73,8 @@ const TagField = ({field, setField, disable }) => {
   { recommandedList.length === 0 ? null :
     <div class='bg-gray-300 grid w-40 overflow-scroll m-2 rounded p-2 h-40 '>
       {
-        recommandedList.map(tag => <div>
-          <button onClick={()=>addRecommandedTag(tag)}>{tag}</button>
+        recommandedList.map(obj => <div>
+          <button onClick={()=>addRecommandedTag(obj)}>{obj.tag}</button>
         </div>)
       }
     </div>
@@ -137,13 +137,19 @@ const FormField = ({setFormdata, disable }) => {
   const [ tagsField, setTagsField ] = useState([])
   const [ thoughtsField, setThoughtsField ] = useState([])
   const [ todayDate, setTodayDate ] = useState('')
+  // included_in_days_of_the_year
+  const [ toBeIncluded, setToBeIncluded ] = useState(false)
+  //reason_to_be_included
+  const [ reason, setReason  ] = useState('')
+  
+  
   
   useEffect(()=>{
     setFormdata( prevv => {
-      const data = {...prevv , day : todayDate , tags : tagsField , thoughts : thoughtsField }
+      const data = {...prevv , day : todayDate , tags : tagsField , thoughts : thoughtsField , included_in_days_of_the_year : toBeIncluded, reason_to_be_included : reason }
       return data
     })
-  },[tagsField, thoughtsField, todayDate])
+  },[tagsField, thoughtsField, todayDate, reason , toBeIncluded ])
   
   useEffect(()=>{
     const date = new Date()
@@ -172,82 +178,63 @@ const FormField = ({setFormdata, disable }) => {
   setField={setThoughtsField} 
   disable={disable}/>
   
+  <div class='bg-gray-200 m-2 p-2 rounded'>
+    <div class='flex'>
+      <p class='m-1 p-1'> to be included in days of the year </p>
+      <input type='checkbox' checked={toBeIncluded} onChange={()=>setToBeIncluded(!toBeIncluded)} class='m-1 p-1' disabled={disable}/>
+    </div>
+    {!toBeIncluded? null :
+      <div class='flex'>
+        <label class='m-1 p-1'> Reason : </label>
+        <input type='text' class='m-1 p-1' onChange={(e)=>setReason(e.target.value)} disabled={disable}/>
+      </div>
+    }
+  </div>
+  
   </div>)
 }
 
-const OneDayToProcessForNewMonth = ({day, setPdfUploadDone}) => {
-  //generate pdf and get its file path in backend
-  const [ pdfGenerated , setPdfGenerated ] = useState('')
+const createNewTagsIfNew = (taglist,formdata, baseUrl) => {
+  const mytaglist = []
+  taglist.map(obj =>{
+    mytaglist.push(obj.tag)
+  })
   
-  //upload pdf from backend to gdrive
-  const upload = () => {
-    setPdfUploadDone( prevv => {
-      const arr = [...prevv]
-      if(!arr.includes(day.day)){ 
-        arr.push(day.day)
-      }
-      return arr
-    })
-  }
-  
-  return <div>
-  <p>{day.day}</p>
-  <button >generate pdf </button >
-  <button onClick={upload}>upload pdf to gdrive </button >
-  </div>
+  formdata.tags.map(str => {
+    if(!mytaglist.includes(str)){
+      const data = { tag : str }
+      axios.post(`${baseUrl}/create_tag`, data)
+    }
+  })
 }
 
-const ForNewMonth = ()=>{
-  const [ startNewMonth, setStartNewMonth ] = useState()
-  const { currentMonthData } = useContext(Context)
-  const [ pdfUploadDone, setPdfUploadDone ] = useState([])
-  // button to patch up or update currentMonthData or previous month for today
-  const [ buttonStyle, setButtonStyle ] = useState('hidden')
-  
-  useEffect(()=>{
-    if( pdfUploadDone.length === currentMonthData.days.length){
-      setButtonStyle('')
-    }
-  },[pdfUploadDone])
-  
-  return <div>
-  its new month
-  {JSON.stringify(pdfUploadDone)}
-  <div class='flex'>
-    <div class='flex'> 
-      <p>Start New Month </p>
-      <button class='bg-blue-400 m-2 p-2' onClick={()=>setStartNewMonth(true)}>start </button>
-    </div>
-    
-    <div class='flex'>
-      <p>Keep Writing in previous month </p>
-      <button class='bg-blue-400 m-2 p-2' onClick={()=>setStartNewMonth(false)}> keep </button>
-    </div>
-  </div>
-  
-  { startNewMonth === false ? <ForNotNewMonth /> : null }
-  
-  { startNewMonth? <div>
-    <div>to patch up : {currentMonthData.month}</div>
-    {
-      currentMonthData.days.map(day => <div>
-        <OneDayToProcessForNewMonth day={day} setPdfUploadDone={setPdfUploadDone} />
-      </div>)
-    }
-    <div class={buttonStyle}>
-      <button > update previous month </button>
-    </div>
-    
-  </div>
-  : null
+const createNewDayToBeRememberedIfChecked = (formdata, baseUrl) => {
+  if(formdata.included_in_days_of_the_year){
+    const data = { day : formdata.day , reason : formdata.reason_to_be_included , delta_data : formdata.delta_data }
+    axios.post(`${baseUrl}/create_day_to_be_remembered`, data )
   }
-  
-  </div>
+}
+
+const handleSubmit = (baseUrl , formdata , taglist , currentMonthData ) => {
+  createNewTagsIfNew(taglist, formdata, baseUrl)
+  createNewDayToBeRememberedIfChecked(formdata, baseUrl)
+  const TodayData = {
+    day : formdata.day,
+    thoughts : formdata.thoughts,
+    tags : formdata.tags,
+    delta_data : formdata.delta_data
+  }
+  const array = [...currentMonthData.days]
+  array.push(TodayData)
+  const data = {...currentMonthData, days : array }
+  console.log(data)
+  axios.post(`${baseUrl}/update_current_month`,  data )
 }
 
 
-const ForNotNewMonth = () => {
-  const { formdata, setFormdata } = useContext(Context)
+
+const Form = () => {
+  const { formdata, setFormdata, baseUrl , taglist ,currentMonthData } = useContext(Context)
   const [ disableForm , setDisableForm ] = useState(false)
   const [ disableTextWriter, setDisableTextWriter ] = useState(false)
   
@@ -273,7 +260,8 @@ const ForNotNewMonth = () => {
   {JSON.stringify(formdata)}
   <div>
     { disableForm && disableTextWriter?
-    <button class='bg-violet-400 m-2 p-2 rounded w-full h-40'> Send </button>
+    <button class='bg-violet-400 m-2 p-2 rounded w-full h-40' 
+      onClick={()=>handleSubmit(baseUrl , formdata , taglist, currentMonthData )}> Send </button>
     : null
     }
   </div>
@@ -282,16 +270,7 @@ const ForNotNewMonth = () => {
 }
 
 
-export default function Form () {
-    const { currentMonthData } = useContext(Context)
-    const date = new Date()
-    const m = date.getMonth() + 1
-    const y = 2024
-    const thisMonth = m + '.' + y 
-    const monthOfCurrentMonthData = currentMonthData.month 
-    if(thisMonth === monthOfCurrentMonthData ){
-      return <ForNotNewMonth />
-    }else{
-      return <ForNewMonth />
-    }
-}
+
+export default Form
+
+

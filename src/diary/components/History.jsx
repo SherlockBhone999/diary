@@ -131,7 +131,7 @@ const ChartForTheMonth = ({chosenMonth, pieChartLabels}) => {
       </div>
       
       <div class='absolute bottom-0 right-0'>
-        <button class='bg-red-600 text-white m-2 p-2 rounded' onClick={()=>navigate('/read')}> Read </button>
+        <a class='bg-red-600 text-white m-2 p-2 rounded' href="https://drive.google.com/file/d/1ynnMemPS17kE02O0vAnW83026PRQ6I7b/view" > Read </a>
       </div>
     </div>
     

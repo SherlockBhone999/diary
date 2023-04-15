@@ -25,6 +25,7 @@ const years = [
         resolution_fulfilled : 'no',
         comment : 'code code code',
         thoughts : ['i so horny', 'i want to spy on peoples'],
+        gdrive_file_link : 'link',
         pie_data : [
           {tag:'help mom', count : 30 }, 
           {tag : 'code', count : 20 }, 
@@ -242,12 +243,14 @@ const years = [
 const current_month = {
   month : '4.2023',
   resolution : 'get a job',
-  comment : 'code code code',
-  thoughts : ['i so horny', 'i want to spy on peoples'],
+  //comment : 'code code code',
+  //thoughts : ['i so horny', 'i want to spy on peoples'],
   days : [
     {
       day : '1.1.2023',
       thoughts : ['i want to get money without working', 'i want superpowers'],
+      included_in_days_of_the_year : false,
+      reason_to_be_included : '' ,
       tags : [
         'help mom',
         'code progress',

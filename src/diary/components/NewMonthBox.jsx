@@ -1,61 +1,102 @@
 import { useState, useContext, useRef, useEffect } from 'react'
 import { Context } from '../Diary'
 import axios from 'axios'
+import { pdfExporter } from 'quill-to-pdf'
+import loadingGif from '../../assets/Loading_icon.gif'
 
 
-const OneDayToProcessForNewMonth = ({day, setPdfUploadDone}) => {
-  //generate pdf and get its file path in backend
-  const [ pdfGenerated , setPdfGenerated ] = useState('')
-  
-  //upload pdf from backend to gdrive
-  const upload = () => {
-    setPdfUploadDone( prevv => {
-      const arr = [...prevv]
-      if(!arr.includes(day.day)){ 
-        arr.push(day.day)
+const quillToPdfConfig = {
+        exportAs: 'blob'
+  };
+
+const config = {
+      headers :{
+        "content-type":"multipart/form-data"
       }
-      return arr
-    })
-  }
+    }
+
+const OneDayToProcessForNewMonth = ({day}) => {
+  const [ ready, setReady ] = useState(true)
   
-  return <div>
+  return <div class='flex w-full justify-between'>
   <p>{day.day}</p>
-  <button >generate pdf </button >
-  <button onClick={upload}>upload pdf to gdrive </button >
+  <p >generated pdf </p >
+  <input type='checkbox' checked={ready} class='m-2' readOnly/>
   </div>
 }
 
+//save delta as pdf in backend
+//merge pdf
+//upload pdf to gdrive
+//update this year
 
 
+
+ 
 const ForNewMonth = ()=>{
-  const { currentMonthData } = useContext(Context)
-  const [ pdfUploadDone, setPdfUploadDone ] = useState([])
-  // button to patch up or update currentMonthData or previous month for today
-  const [ buttonStyle, setButtonStyle ] = useState('hidden')
+  const { currentMonthData, baseUrl } = useContext(Context)
+  //const uploadingPdfToBackendProgressArray
+  const [ backendPdfCount , setBackendPdfCount ] = useState(0)
+  const [ progress , setProgress ] = useState('hi')
+  const [ popUpStyle , setPopUpStyle ] = useState('hidden')
+  
+  const sendBlobToBackend = async (delta_data) => {
+    const pdfAsBlob = await pdfExporter.generatePdf(delta_data, quillToPdfConfig )
+    const data = {blob : pdfAsBlob , name : '1'}
+    axios.post(`${baseUrl}/save_pdf_in_backend`, data, config )
+    .then((res)=>{
+      setProgress('pdf saved :' + res.data + '/' + currentMonthData.days.length)
+      setBackendPdfCount(res.data)
+    })
+  }
+  
+  const start = () => {
+    setPopUpStyle('')
+    setProgress('pdf saved :' + 0 + '/' + currentMonthData.days.length )
+    currentMonthData.days.map( (day,index) => {
+       setTimeout(()=>{
+         sendBlobToBackend(day.delta_data)
+       },100*index)
+    })
+  }
+  
+  const mergePdfs = () => {
+    axios.get(`${baseUrl}/merge_pdfs`)
+  }
   
   useEffect(()=>{
-    if( pdfUploadDone.length === currentMonthData.days.length){
-      setButtonStyle('')
+    if( backendPdfCount === currentMonthData.days.length){
+      setProgress('all days are saved as pdfs')
     }
-  },[pdfUploadDone])
+  },[backendPdfCount])
   
   return <div>
-  its new month
-  {JSON.stringify(pdfUploadDone)}
   
   <div>
     <div>to patch up : {currentMonthData.month}</div>
+    
+    <button class='bg-blue-400 m-3 p-3 rounded border-2 border-black shadow' 
+    onClick={start}>
+      Start
+    </button>
+      
     {
       currentMonthData.days.map(day => <div>
-        <OneDayToProcessForNewMonth day={day} setPdfUploadDone={setPdfUploadDone} />
+        <OneDayToProcessForNewMonth day={day}/>
       </div>)
     }
-    <div class={buttonStyle}>
-      <button > update previous month </button>
-    </div>
+    
     
   </div>
   
+  <div class={`fixed w-screen h-screen bg-black opacity-60 top-0 left-0 flex justify-center ${popUpStyle}`}>
+    <div class='fixed top-60'>
+      <img src={loadingGif} class=''/>
+      <div class='text-white text-xl flex justify-center'>{progress}</div>
+    </div>
+    <button class='text-white' onClick={mergePdfs}>merge</button>
+    <button class='text-white' onClick={()=>setPopUpStyle('hidden')}>back</button>
+  </div>
   
   </div>
 }

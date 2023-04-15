@@ -141,6 +141,7 @@ const FormField = ({setFormdata, disable }) => {
   const [ toBeIncluded, setToBeIncluded ] = useState(false)
   //reason_to_be_included
   const [ reason, setReason  ] = useState('')
+  const { currentMonthData } = useContext(Context)
   
   
   
@@ -163,7 +164,7 @@ const FormField = ({setFormdata, disable }) => {
   return (<div class='bg-violet-200 p-2 rounded'>
   
   <div class='m-2 p-2'>
-    <input type='text' placeholder='month' disabled/>
+    <input type='text' value={currentMonthData.month} disabled/>
   </div>
   
   <div class='m-2 p-2'>

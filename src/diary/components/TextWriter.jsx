@@ -26,8 +26,12 @@ const config = {
 };  
 
 
-const deltaa = {"ops":[{insert:"Bhone"},{ attributes:{bold:true},insert:"5.4.2023Text"},{attributes:{link:"https://www.google.com"},insert:"Google"},{insert:{image:"https://octodex.github.com/images/labtocat.png"}},{insert:"\n"},{insert:{video:"https://www.youtube.com/embed/tgbNymZ7vqY"}}]}
 
+const date = new Date()
+const d = date.getDate()
+const m = date.getMonth() + 1
+const y = date.getFullYear()
+const fulldate = d + '.' + m +'.' + y
 
 
 
@@ -61,6 +65,7 @@ export default function TextWriter({disable, setDisable}){
         //q.insertText(100, 'Hello', 'bold', true);
         //q.setContents(deltaa)
         //q.disable()
+        q.insertText(0 , fulldate , 'bold' , true)
         setQuill(q)
       },[])
     
@@ -96,3 +101,6 @@ export default function TextWriter({disable, setDisable}){
 
 
 
+/*
+const deltaa = {"ops":[{insert:"Bhone"},{ attributes:{bold:true},insert:"5.4.2023Text"},{attributes:{link:"https://www.google.com"},insert:"Google"},{insert:{image:"https://octodex.github.com/images/labtocat.png"}},{insert:"\n"},{insert:{video:"https://www.youtube.com/embed/tgbNymZ7vqY"}}]}
+*/

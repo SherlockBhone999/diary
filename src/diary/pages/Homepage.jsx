@@ -46,13 +46,12 @@ export default function Homepage(){
         navigate('/tags')
       }}>tags</button>
     </div>
- {JSON.stringify(currentMonthData)}
  { currentMonthData.days?
     <div class='grid'>
       { currentMonthData.days.map(day => {
         return <button onClick={()=>{
           setFormdata(day)
-          navigate('write')
+          navigate('/write')
         }}>{day.day}</button>
       }) }
     </div>

@@ -216,23 +216,16 @@ const createNewDayToBeRememberedIfChecked = (formdata, baseUrl) => {
   }
 }
 
+
 const handleSubmit = (baseUrl , formdata , taglist , currentMonthData ) => {
   createNewTagsIfNew(taglist, formdata, baseUrl)
   createNewDayToBeRememberedIfChecked(formdata, baseUrl)
-  const TodayData = {
-    day : formdata.day,
-    thoughts : formdata.thoughts,
-    tags : formdata.tags,
-    delta_data : formdata.delta_data
-  }
   const array = [...currentMonthData.days]
-  array.push(TodayData)
+  array.push(formdata)
   const data = {...currentMonthData, days : array }
   console.log(data)
   axios.post(`${baseUrl}/update_current_month`,  data )
 }
-
-
 
 const Form = () => {
   const { formdata, setFormdata, baseUrl , taglist ,currentMonthData } = useContext(Context)

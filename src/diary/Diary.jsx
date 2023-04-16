@@ -44,13 +44,16 @@ const fetchQuotelist = (baseUrl, setQuotelist ) => {
 }
 
 const fetchCurrentMonthData = (baseUrl, setCurrentMonthData) => {
-  axios.get(`${baseUrl}/get_current_month`)
+  axios.get(`${baseUrl}/get_current_month_filtered`)
   .then(res => {
     setCurrentMonthData(res.data)
   } )
 } 
  
-
+const fetchAllYearsData = (baseUrl, setAllYearsData ) => {
+  axios.get(`${baseUrl}/get_year`)
+  .then(res => setAllYearsData(res.data))
+} 
 
 export default function Diary(){
   const baseUrl = 'http://localhost:3000'
@@ -63,12 +66,14 @@ export default function Diary(){
   const [ taglist, setTaglist ] = useState([])
   //for quotespage, quotebox
   const [ quotelist , setQuotelist ] = useState([])
-  
+  //all year data for new month (putting current month data into year ) and for history
+  const [ allYearsData, setAllYearsData ] = useState([])
   
   useEffect(()=>{
     fetchTaglist(baseUrl, setTaglist)
     fetchQuotelist( baseUrl, setQuotelist )
     fetchCurrentMonthData( baseUrl, setCurrentMonthData )
+    fetchAllYearsData( baseUrl, setAllYearsData )
   },[])
   
   return <Context.Provider value={{
@@ -83,6 +88,8 @@ export default function Diary(){
     setTaglist,
     quotelist,
     setQuotelist,
+    allYearsData,
+    setAllYearsData,
   
   }} >
     <App />

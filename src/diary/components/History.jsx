@@ -1,9 +1,11 @@
 import { useState, useContext, useEffect } from 'react'
 import { Context } from '../Diary'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 import { allData } from '../fakedata2'
 import PieChart from '../components/PieChart'
 const { years } = allData
+
 
 const colors = ['bg-green-500','bg-yellow-300','bg-orange-500','bg-sky-400','bg-rose-400', 'bg-indigo-500']
 
@@ -53,7 +55,7 @@ const OneMonth = ({month, setChosenMonth, setPieChartLabels}) => {
  
 
 const OneYear = ({year, index, indexToShow , setIndexToShow, setChosenYear, 
-setChosenMonth, setPieChartLabels }) => {
+setChosenMonth, setPieChartLabels , allYearsData }) => {
   const [style , setStyle ] = useState('hidden')
   
   useEffect(()=>{
@@ -69,7 +71,7 @@ setChosenMonth, setPieChartLabels }) => {
       <button onClick={()=>{
         if(indexToShow !== index ){ 
           setIndexToShow(index); 
-          setChosenYear(years[index])
+          setChosenYear(allYearsData[index])
           setChosenMonth('')
         }
         else { 
@@ -100,7 +102,7 @@ const ChartForTheYear = ({chosenYear}) => {
         <div class='grid'>
           {chosenYear.days_of_the_year.map(day => <div class='flex'>
             <p>{day.day}</p>
-            <p class='ml-5'>{day.title}</p>
+            <p class='ml-5'>{day.reason}</p>
           </div>)}
         </div>
       }
@@ -152,7 +154,9 @@ const ChartForTheMonth = ({chosenMonth, pieChartLabels}) => {
 }
 
 
+
 export default function History(){
+  //which year
   const [ indexToShow , setIndexToShow ] = useState('')
   //for days_of_the_year box
   const [ chosenYear, setChosenYear ] = useState('')
@@ -160,8 +164,13 @@ export default function History(){
   const [ chosenMonth, setChosenMonth ] = useState('')
   //below piechart
   const [ pieChartLabels , setPieChartLabels ] = useState([])
+  //from db 
+  const { baseUrl, allYearsData } = useContext(Context)
+  
+  
   
   return <div>
+  {JSON.stringify(allYearsData[0].days_of_the_year)}
     <div>
       { chosenMonth === ''?
       <ChartForTheYear chosenYear={chosenYear} />
@@ -172,14 +181,15 @@ export default function History(){
   
   
   {
-    years.map((year,index) => <div>
+    allYearsData.map((year,index) => <div>
       <OneYear year={year} 
       index={index} 
       indexToShow={indexToShow} 
       setIndexToShow={setIndexToShow}
       setChosenYear={setChosenYear}
       setChosenMonth={setChosenMonth}
-      setPieChartLabels={setPieChartLabels}/>
+      setPieChartLabels={setPieChartLabels}
+      allYearsData={allYearsData}/>
     </div>)
   }
   

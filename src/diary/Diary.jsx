@@ -4,13 +4,12 @@ import { BrowserRouter, Route, Routes , useParams } from 'react-router-dom'
 import axios from 'axios'
 import Homepage from './pages/Homepage'
 import Historypage from './pages/Historypage'
-import SpecialDayspage from './pages/SpecialDayspage'
+import DaysToBeRememberedpage from './pages/DaysToBeRememberedpage'
 import Writerpage from './pages/Writerpage'
 import Quotespage from './pages/Quotespage'
 import Tagspage from './pages/Tagspage'
-
-import { allData } from './fakedata2'
-const { current_month } = allData
+import ThisMonthpage from './pages/ThisMonthpage'
+ 
 
 export const Context = createContext()
 
@@ -20,10 +19,11 @@ const App = () => {
    <Routes>
     <Route exact path='/' element={<Homepage />}/>
     <Route path='/history' element={<Historypage />}/>
-    <Route path='/special_days' element={<SpecialDayspage />} />
+    <Route path='/days_to_be_remembered' element={<DaysToBeRememberedpage />}/>
     <Route path='/write' element={<Writerpage />} />
     <Route path='/quotes' element={<Quotespage />} />
     <Route path='/tags' element={<Tagspage />} />
+    <Route path='/this_month' element={<ThisMonthpage />} />
    </Routes>
   </BrowserRouter>
 }
@@ -43,10 +43,10 @@ const fetchQuotelist = (baseUrl, setQuotelist ) => {
   })
 }
 
-const fetchCurrentMonthData = (baseUrl, setCurrentMonthData) => {
+const fetchCurrentMonthData = (baseUrl, setCurrentMonthDataMin) => {
   axios.get(`${baseUrl}/get_current_month_filtered`)
   .then(res => {
-    setCurrentMonthData(res.data)
+    setCurrentMonthDataMin(res.data)
   } )
 } 
  
@@ -59,7 +59,7 @@ export default function Diary(){
   const baseUrl = 'http://localhost:3000'
   const [isAdmin, setIsAdmin ] = useState('')
   //for history, homepage
-  const [currentMonthData , setCurrentMonthData ] = useState({})
+  const [currentMonthDataMin , setCurrentMonthDataMin ] = useState({})
   //for form, writer
   const [formdata , setFormdata ] = useState({})
   //for tagspage, form
@@ -72,7 +72,7 @@ export default function Diary(){
   useEffect(()=>{
     fetchTaglist(baseUrl, setTaglist)
     fetchQuotelist( baseUrl, setQuotelist )
-    fetchCurrentMonthData( baseUrl, setCurrentMonthData )
+    fetchCurrentMonthData( baseUrl, setCurrentMonthDataMin )
     fetchAllYearsData( baseUrl, setAllYearsData )
   },[])
   
@@ -80,8 +80,8 @@ export default function Diary(){
     baseUrl,
     isAdmin,
     setIsAdmin,
-    currentMonthData,
-    setCurrentMonthData,
+    currentMonthDataMin,
+    setCurrentMonthDataMin,
     formdata,
     setFormdata,
     taglist,

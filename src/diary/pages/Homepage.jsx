@@ -2,25 +2,23 @@
 import { useState, useContext} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Context } from '../Diary'
-import { allData } from '../fakedata2'
-const { current_month } = allData
 
-import QuotesBox from '../components/QuotesBox'
+
+
 
 export default function Homepage(){
   const navigate = useNavigate()
-  const { setFormdata , currentMonthData } = useContext(Context)
+  
   return <div>
   
     <div>
-      <QuotesBox />
+      quotebox
     </div>
     
     <div>
       <button onClick={()=>{
         navigate('/write')
-        setFormdata({})
-      }}>write new</button>
+      }}>write </button>
     </div>
     
     <div>
@@ -37,7 +35,7 @@ export default function Homepage(){
     
     <div>
       <button onClick={()=>{
-        navigate('/special_days')
+        navigate('/days_to_be_remembered')
       }}>Days to be remembered</button>
     </div>
     
@@ -46,17 +44,13 @@ export default function Homepage(){
         navigate('/tags')
       }}>tags</button>
     </div>
- { currentMonthData.days?
-    <div class='grid'>
-      { currentMonthData.days.map(day => {
-        return <button onClick={()=>{
-          setFormdata(day)
-          navigate('/write')
-        }}>{day.day}</button>
-      }) }
+
+    <div>
+      <button onClick={()=>{
+        navigate('/this_month')
+      }}>this_month</button>
     </div>
-  : null  
- }
- 
+    
+    
   </div>
 }

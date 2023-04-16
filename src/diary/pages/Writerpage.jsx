@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import NewMonthBox from '../components/NewMonthBox'
 import { useContext, useState , useEffect } from 'react'
 import { Context } from '../Diary'
+import Container from '../components/writer/Container'
 
 function Chosen ({chosen}) {
   if(chosen === 'old'){
@@ -40,7 +41,8 @@ const m = 1
 const y = date.getFullYear()
 const thisMonth = m + '.' + y 
 
-export default function Writerpage(){
+
+function Writerpage(){
   const navigate= useNavigate()
   const { currentMonthData } = useContext(Context)
   const [isNewMonth , setIsNewMonth ] = useState(false)
@@ -70,3 +72,10 @@ export default function Writerpage(){
 }
 
 
+function NewWriterpage(){
+  return <div>
+    <Container />
+  </div>
+}
+
+export default NewWriterpage

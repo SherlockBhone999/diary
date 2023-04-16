@@ -97,16 +97,18 @@ setChosenMonth, setPieChartLabels , allYearsData }) => {
 
 const ChartForTheYear = ({chosenYear}) => {
   return <div>
+  { chosenYear === ''? null :
     <div class='bg-gray-200 aspect-square w-80 mr-2 overflow-scroll'>
-      { chosenYear === ''? null :
+
         <div class='grid'>
           {chosenYear.days_of_the_year.map(day => <div class='flex'>
             <p>{day.day}</p>
             <p class='ml-5'>{day.reason}</p>
           </div>)}
         </div>
-      }
+      
     </div>
+  }
   </div>
 }
 
@@ -136,6 +138,10 @@ const ChartForTheMonth = ({chosenMonth, pieChartLabels}) => {
         <a class='bg-red-600 text-white m-2 p-2 rounded' href="https://drive.google.com/file/d/1ynnMemPS17kE02O0vAnW83026PRQ6I7b/view" > Read </a>
       </div>
     </div>
+    
+    
+    
+    
     
     <div class='bg-gray-200 w-80 h-80 flex flex-auto overflow-scroll'>
       <div class='grid'>

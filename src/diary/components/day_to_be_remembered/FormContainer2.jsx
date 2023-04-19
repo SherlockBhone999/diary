@@ -7,7 +7,7 @@ import TextWriter from '../writer/TextWriter'
 
 export default function FormContainer () {
   const [ editDisabled , setEditDisabled ] = useState(false)
-  const { quill, formdata4TD , setFormdata4TD } = useContext(Context)
+  const { quill, formdata , setFormdata } = useContext(Context)
   
   
   return <div>
@@ -20,10 +20,10 @@ export default function FormContainer () {
   
   <div class='bg-gray-200 p-5 m-2'>
     <input type='text' placeholder='...short reason' class='w-full rounded p-2 border-2 border-black' 
-    disabled={editDisabled} value={formdata4TD.reason} 
+    disabled={editDisabled} value={formdata.reason} 
     onChange={(e)=>{
-      const data = { ...formdata4TD, reason : e.target.value }
-      setFormdata4TD(data)
+      const data = { ...formdata, reason : e.target.value }
+      setFormdata(data)
     }}/>
   </div>
   

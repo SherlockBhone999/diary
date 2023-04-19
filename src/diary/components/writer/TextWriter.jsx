@@ -37,7 +37,7 @@ const fulldate = d + '.' + m +'.' + y
 
 export default function TextWriter({disable, setDisable }){
   //const [quill,setQuill] = useState()
-  const { baseUrl , formdata4TD, setFormdata4TD , quill , setQuill } = useContext(Context)
+  const { baseUrl , formdata, setFormdata , quill , setQuill } = useContext(Context)
   
   
   const handleUpload = async (e) =>{
@@ -66,10 +66,10 @@ export default function TextWriter({disable, setDisable }){
         //q.setContents(deltaa)
         //q.disable()
         
-        if(!formdata4TD.delta_data){
+        if(!formdata.delta_data){
           q.insertText(0 , fulldate , 'bold' , true)
         }else{
-          q.setContents(formdata4TD.delta_data)
+          q.setContents(formdata.delta_data)
         }
         
         setQuill(q)
@@ -89,8 +89,8 @@ export default function TextWriter({disable, setDisable }){
       quill.disable()
       setDisable(true)
       const d = quill.getContents()
-      const data = { ...formdata4TD, delta_data : d }
-      setFormdata4TD(data)
+      const data = { ...formdata, delta_data : d }
+      setFormdata(data)
     }}> Done </button>
     }
   </div>

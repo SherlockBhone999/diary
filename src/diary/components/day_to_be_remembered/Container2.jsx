@@ -20,7 +20,7 @@ const fetchListMin = (baseUrl, setList , setChosen) => {
 export default function Container () {
   const [ listForSelectionMin, setList] = useState([])
   const [ itemToFetchFull , setItemToFetch ] = useState()
-  const { baseUrl , formdata4TD , setFormdata4TD  } = useContext(Context)
+  const { baseUrl , formdata , setFormdata  } = useContext(Context)
   const [ chosenComponentForWriterContainer , setChosen ] = useState('initial')
   
   const navigate = useNavigate()
@@ -33,7 +33,7 @@ export default function Container () {
   
   useEffect(()=>{
     setChosen('initial')
-    setFormdata4TD(null)
+    setFormdata(null)
   },[itemToFetchFull])
 
   return <div>

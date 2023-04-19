@@ -77,8 +77,8 @@ export default function Diary(){
   const [isAdmin, setIsAdmin ] = useState('')
   //for history, homepage
   const [currentMonthDataMin , setCurrentMonthDataMin ] = useState([])
-  //for form, writer, this month  formdata for the day 
-  const [formdata4TD , setFormdata4TD ] = useState({})
+  //for everything, writer, DTBR , this month 
+  const [formdata , setFormdata ] = useState({})
   //for tagspage, form
   const [ taglist, setTaglist ] = useState([])
   //for quotespage, quotebox
@@ -104,8 +104,8 @@ export default function Diary(){
     setIsAdmin,
     currentMonthDataMin,
     setCurrentMonthDataMin,
-    formdata4TD,
-    setFormdata4TD,
+    formdata,
+    setFormdata,
     taglist,
     setTaglist,
     quotelist,
@@ -114,7 +114,6 @@ export default function Diary(){
     setAllYearsData,
     isTodayNew,
     setIsTodayNew,
-    
     quill,
     setQuill
   

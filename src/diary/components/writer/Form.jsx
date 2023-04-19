@@ -12,12 +12,12 @@ const Form = ({disable, setDisable }) => {
   const [ toBeIncluded, setToBeIncluded ] = useState(false)
   //reason_to_be_included
   const [ reason, setReason  ] = useState('')
-  const { currentMonthDataMin , setFormdata4TD } = useContext(Context)
+  const { currentMonthDataMin , setFormdata } = useContext(Context)
   
   
    
   useEffect(()=>{
-    setFormdata4TD( prevv => {
+    setFormdata( prevv => {
       const data = {...prevv , day : todayDate , tags : tagsField , thoughts : thoughtsField , included_in_days_of_the_year : toBeIncluded, reason_to_be_included : reason }
       return data
     })

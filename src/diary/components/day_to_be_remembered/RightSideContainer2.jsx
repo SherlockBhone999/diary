@@ -23,7 +23,7 @@ const LoadingDiv = () => {
 
 
 
-const fetchItem = (baseUrl, setFormdata4TD , setChosen, itemToFetch) => {
+const fetchItem = (baseUrl, setFormdata , setChosen, itemToFetch) => {
   const data = { _id : itemToFetch._id}
   axios.post(`${baseUrl}/get_a_day_to_be_remembered_full`, data )
   .then(res => {
@@ -32,25 +32,25 @@ const fetchItem = (baseUrl, setFormdata4TD , setChosen, itemToFetch) => {
   })
 }
  
-const test = (itemToFetch, setFormdata4TD , setChosen ) => {
+const test = (itemToFetch, setFormdata , setChosen ) => {
   
   setTimeout(()=>{
-    setFormdata4TD({delta_data : itemToFetch.delta_data })
+    setFormdata({delta_data : itemToFetch.delta_data })
     setChosen('item_fetched')
   },1000)  
 } 
 
 const FetchButton = ({setChosen, itemToFetch }) => {
-  const {baseUrl , setFormdata4TD } = useContext(Context)
+  const {baseUrl , setFormdata } = useContext(Context)
   return <div class='h-screen'>
     { itemToFetch?
       <div class='flex justify-center items-center h-full'>
         <div class=''>
           <button onClick={()=>{
             setChosen('loading')
-            //fetchItem(baseUrl, setFormdata4TD , setChosen , itemToFetch )
+            //fetchItem(baseUrl, setFormdata , setChosen , itemToFetch )
             
-            test(itemToFetch, setFormdata4TD , setChosen )
+            test(itemToFetch, setFormdata , setChosen )
           } }>fetch {itemToFetch.day}</button>
         </div>
       </div>

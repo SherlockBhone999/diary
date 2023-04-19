@@ -27,7 +27,7 @@ const fetchItem = (baseUrl, setFormdata , setChosen, itemToFetch) => {
   const data = { _id : itemToFetch._id}
   axios.post(`${baseUrl}/get_a_day_to_be_remembered_full`, data )
   .then(res => {
-    const {delta_data} = res.data
+    setFormdata(res.data)
     setChosen('item_fetched')
   })
 }
@@ -48,9 +48,9 @@ const FetchButton = ({setChosen, itemToFetch }) => {
         <div class=''>
           <button onClick={()=>{
             setChosen('loading')
-            //fetchItem(baseUrl, setFormdata , setChosen , itemToFetch )
+            fetchItem(baseUrl, setFormdata , setChosen , itemToFetch )
             
-            test(itemToFetch, setFormdata , setChosen )
+            //test(itemToFetch, setFormdata , setChosen )
           } }>fetch {itemToFetch.day}</button>
         </div>
       </div>

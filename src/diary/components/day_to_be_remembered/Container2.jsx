@@ -12,7 +12,6 @@ const fetchListMin = (baseUrl, setList , setChosen) => {
   axios.get(`${baseUrl}/get_days_to_be_remembered_min`)
   .then(res => {
     setList(res.data)
-    console.log(res.data)
     setChosen('list_fetched')
   }) 
 }
@@ -26,8 +25,8 @@ export default function Container () {
   const navigate = useNavigate()
 
   useEffect(()=>{
-    //fetchListMin(baseUrl, setList)
-    setList(daysToBeRemembered)
+    fetchListMin(baseUrl, setList , setChosen )
+    //setList(daysToBeRemembered)
     
   },[])
   

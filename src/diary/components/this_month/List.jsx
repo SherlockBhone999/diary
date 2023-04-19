@@ -1,17 +1,19 @@
-import { useContext } from 'react'
+import { useContext , useEffect } from 'react'
 import { Context } from '../../Diary'
+import axios from 'axios'
 
 
-const deltaa = {"ops":[{insert:"Bhone"},{ attributes:{bold:true},insert:"5.4.2023Text"},{attributes:{link:"https://www.google.com"},insert:"Google"},{insert:{image:"https://octodex.github.com/images/labtocat.png"}},{insert:"\n"},{insert:{video:"https://www.youtube.com/embed/tgbNymZ7vqY"}}]}
-
-
-export default function List() {
-  const { quill } = useContext(Context)
-  return <div>
+export default function List({setItemToFetch}) {
+  const { currentMonthDataMin} = useContext(Context)
   
-    list :
-    <button onClick={()=>{
-    quill.setContents(deltaa)
-    }}>click</button>
+  
+  return <div>
+    <div>
+      {currentMonthDataMin.map(day => <div>
+        <button class='text-white p-2 m-3 border-2' 
+        onClick={()=>setItemToFetch(day)}>{day.day}</button>
+      </div>)}
+    </div>
+    
   </div>
 }

@@ -36,8 +36,8 @@ const fulldate = d + '.' + m +'.' + y
 
 
 export default function TextWriter({disable, setDisable }){
-  const [quill,setQuill] = useState()
-  const { baseUrl , formdata, setFormdata } = useContext(Context)
+  //const [quill,setQuill] = useState()
+  const { baseUrl , formdata4TD, setFormdata4TD , quill , setQuill } = useContext(Context)
   
   
   const handleUpload = async (e) =>{
@@ -65,13 +65,19 @@ export default function TextWriter({disable, setDisable }){
         //q.insertText(100, 'Hello', 'bold', true);
         //q.setContents(deltaa)
         //q.disable()
-        q.insertText(0 , fulldate , 'bold' , true)
+        
+        if(!formdata4TD.delta_data){
+          q.insertText(0 , fulldate , 'bold' , true)
+        }else{
+          q.setContents(formdata4TD.delta_data)
+        }
+        
         setQuill(q)
-      },[])
+      },[]) 
     
   
   
-  return <div class=''>
+  return <div class='bg-black'>
   <div class='bg-rose-200 w-20 mt-4'>
     { disable? 
     <button class='m-2 p-2 bg-blue-400 rounded' onClick={()=>{
@@ -83,8 +89,8 @@ export default function TextWriter({disable, setDisable }){
       quill.disable()
       setDisable(true)
       const d = quill.getContents()
-      const data = { ...formdata, delta_data : d }
-      setFormdata(data)
+      const data = { ...formdata4TD, delta_data : d }
+      setFormdata4TD(data)
     }}> Done </button>
     }
   </div>

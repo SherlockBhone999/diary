@@ -9,16 +9,16 @@ export default function NewMonthContainer(){
   
   return <div>
   
-  <div class={`grid ${style}`}>
+  <div className={`grid ${style}`}>
       <button onClick={()=>{
         setChosen('new')
         setStyle('hidden')
-      }} class='bg-blue-400 m-2 p-2 rounded shadow'>start new month </button>
+      }} className='bg-blue-400 m-2 p-2 rounded shadow'>start new month </button>
       
       <button onClick={()=>{
         setChosen('old')
         setStyle('hidden')
-      }} class='bg-blue-400 m-2 p-2 rounded shadow'>keep current month data </button>
+      }} className='bg-blue-400 m-2 p-2 rounded shadow'>keep current month data </button>
   </div>
   
   { chosen === 'old'? <FormContainer /> : null }

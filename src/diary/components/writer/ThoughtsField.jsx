@@ -25,9 +25,7 @@ const ThoughtsField = ({field, setField , disable }) => {
   }
   
   return <div>
-    <div class='flex'>My Thoughts : 
-    { disable ? null : <button onClick={add} >++</button> }
-    </div>
+    My Thoughts : 
     
     <div class='bg-gray-200 h-60 overflow-scroll m-2 rounded '>
       {
@@ -39,6 +37,8 @@ const ThoughtsField = ({field, setField , disable }) => {
         </div>)
       }
     </div>
+    
+    { disable ? null : <button onClick={add} class='m-2 '>++</button> }
     
   </div>
 }

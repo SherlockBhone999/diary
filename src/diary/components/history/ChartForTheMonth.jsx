@@ -1,5 +1,5 @@
 import {useNavigate} from 'react-router-dom'
-import PieChart from '../PieChart'
+import PieChart from './PieChart'
 
 
 const ChartForTheMonth = ({chosenMonth, pieChartLabels}) => {

@@ -1,6 +1,5 @@
-/*
 import List from './List'
-import RightSideContainer from './RightSideContainer'
+import RightSideContainer from './RightSideContainer2'
 import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {Context} from '../../Diary'
@@ -15,47 +14,46 @@ const fetchListMin = (baseUrl, setList , setChosen) => {
     setList(res.data)
     console.log(res.data)
     setChosen('list_fetched')
-  })
+  }) 
 }
 
 export default function Container () {
   const [ listForSelectionMin, setList] = useState([])
   const [ itemToFetchFull , setItemToFetch ] = useState()
-  const { baseUrl } = useContext(Context)
+  const { baseUrl , formdata4TD , setFormdata4TD  } = useContext(Context)
   const [ chosenComponentForWriterContainer , setChosen ] = useState('initial')
-  const [ itemToReadOrUpdate , setItem ] = useState(null)
+  
   const navigate = useNavigate()
 
   useEffect(()=>{
     //fetchListMin(baseUrl, setList)
     setList(daysToBeRemembered)
+    
   },[])
   
   useEffect(()=>{
     setChosen('initial')
-    setItem(null)
+    setFormdata4TD(null)
   },[itemToFetchFull])
-  
+
   return <div>
     <div class='flex'>
-    
+
       <div class='w-2/6 bg-gray-500 h-screen'>
         <button class='bg-blue-400 m-2 p-2 rounded'
         onClick={()=>navigate('/')}>Back</button>
-          
+        
         <List list={listForSelectionMin} setItemToFetch={setItemToFetch} />
-      </div>
       
+      </div>
+ 
       <div class='w-4/6 bg-gray-400 h-screen'>
         <RightSideContainer itemToFetch={itemToFetchFull} 
         chosen={chosenComponentForWriterContainer} 
-        setChosen={setChosen}
-        item={itemToReadOrUpdate} 
-        setItem={setItem} />
+        setChosen={setChosen}/>
       </div>
       
     </div> 
+  
   </div>
 }
-
-*/

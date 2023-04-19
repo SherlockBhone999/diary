@@ -12,12 +12,12 @@ const Form = ({disable, setDisable }) => {
   const [ toBeIncluded, setToBeIncluded ] = useState(false)
   //reason_to_be_included
   const [ reason, setReason  ] = useState('')
-  const { currentMonthDataMin , setFormdata } = useContext(Context)
+  const { currentMonthDataMin , setFormdata4TD } = useContext(Context)
   
   
    
   useEffect(()=>{
-    setFormdata( prevv => {
+    setFormdata4TD( prevv => {
       const data = {...prevv , day : todayDate , tags : tagsField , thoughts : thoughtsField , included_in_days_of_the_year : toBeIncluded, reason_to_be_included : reason }
       return data
     })
@@ -34,7 +34,7 @@ const Form = ({disable, setDisable }) => {
   
   return (<div>
   
-  <div class='bg-violet-200 w-20'>
+  <div class='bg-purple-300 w-20'>
     {disable? 
       <div>
         <button onClick={()=>setDisable(false)} class='m-2 p-2 rounded bg-blue-400'> Edit </button>
@@ -46,7 +46,7 @@ const Form = ({disable, setDisable }) => {
     }
   </div>
   
-  <div class='bg-violet-200 p-2 rounded'>
+  <div class='bg-purple-300 p-2 '>
   
   <div class='m-2 p-2'>
     <input type='text' value={currentMonthDataMin.month} disabled/>
@@ -56,17 +56,21 @@ const Form = ({disable, setDisable }) => {
     <input type='text' placeholder='day' value={todayDate} onChange={(e)=>setTodayDate(e.target.value)} disabled={disable}/>
   </div>
   
+  <div class='flex'>
+  <div class='w-3/6'>
   <TagsField field={tagsField} 
   setField={setTagsField} 
   disable={disable}/>
+  </div>
 
-
+  <div class='w-3/6'>
   <ThoughtsField field={thoughtsField} 
   setField={setThoughtsField} 
   disable={disable}/>
-
+  </div>
+  </div>
   
-  <div class='bg-gray-200 m-2 p-2 rounded'>
+  <div class='bg-gray-100 m-2 p-2 rounded'>
     <div class='flex'>
       <p class='m-1 p-1'> to be included in days of the year </p>
       <input type='checkbox' checked={toBeIncluded} onChange={()=>setToBeIncluded(!toBeIncluded)} class='m-1 p-1' disabled={disable}/>

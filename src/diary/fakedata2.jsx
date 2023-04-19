@@ -1,6 +1,28 @@
 
 
-//year
+
+
+////new current mon schem
+const current_month_day = {
+      day : '1.1.2023',
+      thoughts : ['i want to get money without working', 'i want superpowers'],
+      included_in_days_of_the_year : false,
+      reason_to_be_included : '' ,
+      tags : [
+        'help mom',
+        'code progress',
+        'exercise'
+        ],
+      delta_data : 'delta obj'
+}
+
+
+const current_month_extra_data = {
+  month : '4.2023',
+  resolution : 'get a job',
+}
+
+
 
 const years = [
   {
@@ -240,45 +262,7 @@ const years = [
   
   
   
-const current_month = {
-  month : '4.2023',
-  resolution : 'get a job',
-  //comment : 'code code code',
-  //thoughts : ['i so horny', 'i want to spy on peoples'],
-  days : [
-    {
-      day : '1.1.2023',
-      thoughts : ['i want to get money without working', 'i want superpowers'],
-      included_in_days_of_the_year : false,
-      reason_to_be_included : '' ,
-      tags : [
-        'help mom',
-        'code progress',
-        'exercise'
-        ],
-      delta_data : 'delta array'
-    },
-    {
-      day : '2.1.2023',
-      thoughts : ['i want to get money without working', 'i want superpowers'],
-      tags : [
-        'help mom',
-        'code progress',
-        'exercise'
-        ],
-      delta_data : 'delta array'
-    },
-    {
-      day : '6.1.2023',
-      thoughts : ['i want to bang ', 'i want immortality '],
-      tags : [
-        'help mom',
-        'exercise'
-        ],
-      delta_data : 'delta array'
-    }
-  ]
-}
+
 
 
 
@@ -308,17 +292,17 @@ const daysToBeRemembered = [
   {
     day : '1.2.2023',
     reason : 'awakened super poers',
-    delta_data : 'delta array'
+    delta_data : {"ops":[{insert:"with image"},{ attributes:{bold:true},insert:"5.4.2023Text"},{attributes:{link:"https://www.google.com"},insert:"Google"},{insert:{image:"https://octodex.github.com/images/labtocat.png"}},{insert:"\n"}]},
   },
   {
     day : '6.4.2023',
     reason : 'got a girlfriend',
-    delta_data : 'delta array'
+    delta_data :{"ops":[{insert:"with video"},{ attributes:{bold:true},insert:"5.4.2023Text"},{attributes:{link:"https://www.google.com"},insert:"Google"},{insert:"\n"},{insert:{video:"https://www.youtube.com/embed/tgbNymZ7vqY"}}]},
   },
   {
     day : '16.8.2023',
     reason : ' got second girlfriend',
-    delta_data : 'delta array'
+    delta_data : {"ops":[{insert:"with video and image "},{ attributes:{bold:true},insert:"5.4.2023Text"},{attributes:{link:"https://www.google.com"},insert:"Google"},{insert:{image:"https://octodex.github.com/images/labtocat.png"}},{insert:"\n"},{insert:{video:"https://www.youtube.com/embed/tgbNymZ7vqY"}}]},
   }
   ]
   
@@ -338,4 +322,9 @@ const taglist = [
   'upset'
 ]
 
-export const allData = { years , current_month, gdriveFiles, quotes, daysToBeRemembered, taglist } 
+
+
+
+
+
+export const allData = { years , gdriveFiles, quotes, daysToBeRemembered, taglist } 

@@ -43,10 +43,27 @@ const fetchQuotelist = (baseUrl, setQuotelist ) => {
   })
 }
 
-const fetchCurrentMonthData = (baseUrl, setCurrentMonthDataMin) => {
-  axios.get(`${baseUrl}/get_current_month_filtered`)
+const date = new Date()
+const d = date.getDay()
+const m = date.getMonth() + 1 
+const y = date.getFullYear() 
+const todayDate = d + '.' + m + '.' + y
+
+const fetchCurrentMonthDaysMin = (baseUrl, setCurrentMonthDataMin , setIsTodayNew ) => {
+  axios.get(`${baseUrl}/get_current_month_days_min`)
   .then(res => {
     setCurrentMonthDataMin(res.data)
+    const daysInCurrentMonth = []
+    res.data.map(day => {
+      daysInCurrentMonth.push(day.day)
+    })
+    
+    if(daysInCurrentMonth.includes(todayDate.toString())){
+      setIsTodayNew(false)
+    }else{
+      setIsTodayNew(true)
+    }
+  
   } )
 } 
  
@@ -59,20 +76,25 @@ export default function Diary(){
   const baseUrl = 'http://localhost:3000'
   const [isAdmin, setIsAdmin ] = useState('')
   //for history, homepage
-  const [currentMonthDataMin , setCurrentMonthDataMin ] = useState({})
-  //for form, writer
-  const [formdata , setFormdata ] = useState({})
+  const [currentMonthDataMin , setCurrentMonthDataMin ] = useState([])
+  //for form, writer, this month  formdata for the day 
+  const [formdata4TD , setFormdata4TD ] = useState({})
   //for tagspage, form
   const [ taglist, setTaglist ] = useState([])
   //for quotespage, quotebox
   const [ quotelist , setQuotelist ] = useState([])
   //all year data for new month (putting current month data into year ) and for history
   const [ allYearsData, setAllYearsData ] = useState([])
+  //see if today new or update
+  const [ isTodayNew, setIsTodayNew ] = useState(null)
+  //quill for writer and this month
+  const [quill,setQuill] = useState()
+  
   
   useEffect(()=>{
     fetchTaglist(baseUrl, setTaglist)
     fetchQuotelist( baseUrl, setQuotelist )
-    fetchCurrentMonthData( baseUrl, setCurrentMonthDataMin )
+    fetchCurrentMonthDaysMin( baseUrl, setCurrentMonthDataMin , setIsTodayNew )
     fetchAllYearsData( baseUrl, setAllYearsData )
   },[])
   
@@ -82,14 +104,19 @@ export default function Diary(){
     setIsAdmin,
     currentMonthDataMin,
     setCurrentMonthDataMin,
-    formdata,
-    setFormdata,
+    formdata4TD,
+    setFormdata4TD,
     taglist,
     setTaglist,
     quotelist,
     setQuotelist,
     allYearsData,
     setAllYearsData,
+    isTodayNew,
+    setIsTodayNew,
+    
+    quill,
+    setQuill
   
   }} >
     <App />

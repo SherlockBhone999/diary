@@ -5,11 +5,26 @@ import { useNavigate } from 'react-router-dom'
 import {Context} from '../../Diary'
 import axios from 'axios'
 
+const date = new Date()
+const d = date.getDate()
+const m = date.getMonth() + 1
+const y = date.getFullYear()
+var today = d + '.' + m + '.' + y
+const initialFormdata = {
+  day : today.toString(),
+  tags : [],
+  thoughts : [],
+  included_in_days_of_the_year : false,
+  reason_to_be_included : '',
+  //cause textwriter depends on delta_data whether to load or new
+  delta_data : null,
+}
+
 export default function Container(){
   const [ itemToFetchFull , setItemToFetch ] = useState()
   const [ chosenComponentForWriterContainer , setChosen ] = useState('initial')
   //del formdata later
-  const { setFormdata , formdata } = useContext(Context)
+  const { setFormdata , formdata , setWriterMode } = useContext(Context)
   
   const navigate = useNavigate()
 
@@ -24,7 +39,11 @@ export default function Container(){
     
       <div class='w-2/6 bg-gray-500 h-screen'>
         <button class='bg-blue-400 m-2 p-2 rounded'
-        onClick={()=>navigate('/')}>Back</button>
+        onClick={()=>{
+          navigate('/')
+          setFormdata(initialFormdata)
+          setWriterMode('write_new')
+        }}>Back</button>
           
         <List setItemToFetch={setItemToFetch} />
       </div>

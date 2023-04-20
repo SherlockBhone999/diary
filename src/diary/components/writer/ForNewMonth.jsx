@@ -2,6 +2,7 @@
 import { useState, useEffect, useContext } from 'react'
 
 const Chosen = () => {
+  const [ progress , setProgress ] = useState('')
   return <div>
     <button class=''> hi </button>
   </div>

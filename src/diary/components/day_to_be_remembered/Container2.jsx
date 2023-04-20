@@ -17,18 +17,13 @@ const fetchListMin = (baseUrl, setList , setChosen) => {
 }
 
 export default function Container () {
-  const [ listForSelectionMin, setList] = useState([])
   const [ itemToFetchFull , setItemToFetch ] = useState()
-  const { baseUrl , formdata , setFormdata  } = useContext(Context)
+  const { baseUrl , formdata , setFormdata, dTBRMin   } = useContext(Context)
   const [ chosenComponentForWriterContainer , setChosen ] = useState('initial')
   
   const navigate = useNavigate()
 
-  useEffect(()=>{
-    fetchListMin(baseUrl, setList , setChosen )
-    //setList(daysToBeRemembered)
-    
-  },[])
+  
   
   useEffect(()=>{
     setChosen('initial')
@@ -42,7 +37,7 @@ export default function Container () {
         <button class='bg-blue-400 m-2 p-2 rounded'
         onClick={()=>navigate('/')}>Back</button>
         
-        <List list={listForSelectionMin} setItemToFetch={setItemToFetch} />
+        <List list={dTBRMin} setItemToFetch={setItemToFetch} />
       
       </div>
  

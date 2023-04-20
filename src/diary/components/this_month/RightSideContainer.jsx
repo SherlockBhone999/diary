@@ -13,26 +13,27 @@ const LoadingDiv = () => {
           <img src={loadingGif} class='rounded'/>
         </div>
       </div>
-  </div>
+  </div> 
 }
 
-const fetchItem = (baseUrl , setFormdata , setChosen , itemToFetch ) => {
+const fetchItem = (baseUrl , setFormdata , setChosen , itemToFetch , setWriterMode ) => {
   axios.post(`${baseUrl}/get_current_month_day`, itemToFetch )
   .then(res =>{
+    setWriterMode('load_this_month_day')
     setFormdata(res.data)
     setChosen('item_fetched')
   })
 }
 
 const FetchButton = ({setChosen, itemToFetch }) => {
-  const {baseUrl , setFormdata } = useContext(Context)
+  const {baseUrl , setFormdata , setWriterMode } = useContext(Context)
   return <div class='h-screen'>
     { itemToFetch?
       <div class='flex justify-center items-center h-full'>
         <div class=''>
           <button onClick={()=>{
             setChosen('loading')
-            fetchItem(baseUrl, setFormdata , setChosen , itemToFetch )
+            fetchItem(baseUrl, setFormdata , setChosen , itemToFetch , setWriterMode )
             
             //test(itemToFetch, setFormdata , setChosen )
           } }>fetch {itemToFetch.day}</button>

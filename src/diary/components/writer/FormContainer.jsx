@@ -18,11 +18,28 @@ const createNewTagsIfNew = (taglist,formdata, baseUrl) => {
   })
 }
 
-const createNewDayToBeRememberedIfChecked = (formdata, baseUrl) => {
-  if(formdata.included_in_days_of_the_year){
-    const data = { day : formdata.day , reason : formdata.reason_to_be_included , delta_data : formdata.delta_data }
-    axios.post(`${baseUrl}/create_day_to_be_remembered`, data )
-  }
+
+const createOrUpdateDayToBeRememberedIfChecked = (formdata, baseUrl, dTBRMin ) => {
+    if(formdata.included_in_days_of_the_year){
+      const arrOfDays = []
+      dTBRMin.map(day => { arrOfDays.push(day.day )})
+      
+      var requiredId = ""
+      dTBRMin.map(day => {
+        if(day.day === formdata.day ){
+          requiredId = day._id
+        }
+      })
+      
+      const data = { day : formdata.day , reason : formdata.reason_to_be_included , delta_data : formdata.delta_data, _id : requiredId }
+      if(arrOfDays.includes(formdata.day)){
+        axios.post(`${baseUrl}/update_day_to_be_remembered`, data )
+      }else{
+        axios.post(`${baseUrl}/create_day_to_be_remembered`, data )
+      }
+      
+    }
+    
 }
 
 const createNewCurrentMonthDay = (baseUrl, formdata ) => {
@@ -33,21 +50,20 @@ const updateCurrentMonthDay = (baseUrl, formdata ) => {
   axios.post(`${baseUrl}/update_current_month_day`, formdata )
 }
 
-const handleSubmit = (baseUrl , formdata , taglist , currentMonthDataMin ) => {
+const handleSubmit = (baseUrl , formdata , taglist , currentMonthDataMin , dTBRMin ) => {
   
   const arrOfDays = []
   currentMonthDataMin.map(day => {
     arrOfDays.push(day.day)
   })
-  // 9:40 pm 19.4.2023
   
   createNewTagsIfNew(taglist, formdata , baseUrl)
-  
+  createOrUpdateDayToBeRememberedIfChecked(formdata , baseUrl , dTBRMin )
+
   if(arrOfDays.includes(formdata.day)){
-    createNewDayToBeRememberedIfChecked(formdata , baseUrl)
-    createNewCurrentMonthDay(baseUrl, formdata)
-  }else{
     updateCurrentMonthDay(baseUrl, formdata )
+  }else{
+    createNewCurrentMonthDay(baseUrl, formdata)
   }
   
 }
@@ -57,7 +73,7 @@ const handleSubmit = (baseUrl , formdata , taglist , currentMonthDataMin ) => {
 export default function FormContainer() {
   const [ disableTextWriter, setDisableTextWriter ] = useState(false)
   const [ disableForm , setDisableForm ] = useState(false)
-  const { formdata , baseUrl , taglist, currentMonthDataMin } = useContext(Context)
+  const { formdata , baseUrl , taglist, currentMonthDataMin, dTBRMin } = useContext(Context)
 
   
   
@@ -68,7 +84,7 @@ export default function FormContainer() {
     <div class='flex justify-center'>
       { disableForm && disableTextWriter?
       <button class='bg-violet-400 m-4 p-2 rounded w-60 h-40' 
-        onClick={()=>handleSubmit(baseUrl , formdata , taglist, currentMonthDataMin )}> Send </button>
+        onClick={()=>handleSubmit(baseUrl , formdata , taglist, currentMonthDataMin, dTBRMin )}> Send </button>
       : null
       }
     </div>

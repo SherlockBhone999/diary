@@ -49,21 +49,10 @@ const m = date.getMonth() + 1
 const y = date.getFullYear() 
 const todayDate = d + '.' + m + '.' + y
 
-const fetchCurrentMonthDaysMin = (baseUrl, setCurrentMonthDataMin , setIsTodayNew ) => {
+const fetchCurrentMonthDaysMin = (baseUrl, setCurrentMonthDataMin ) => {
   axios.get(`${baseUrl}/get_current_month_days_min`)
   .then(res => {
     setCurrentMonthDataMin(res.data)
-    const daysInCurrentMonth = []
-    res.data.map(day => {
-      daysInCurrentMonth.push(day.day)
-    })
-    
-    if(daysInCurrentMonth.includes(todayDate.toString())){
-      setIsTodayNew(false)
-    }else{
-      setIsTodayNew(true)
-    }
-  
   } )
 } 
  
@@ -71,6 +60,14 @@ const fetchAllYearsData = (baseUrl, setAllYearsData ) => {
   axios.get(`${baseUrl}/get_year`)
   .then(res => setAllYearsData(res.data))
 } 
+
+const fetchDTBRMin = (baseUrl, setDTBRMin ) => {
+  axios.get(`${baseUrl}/get_days_to_be_remembered_min`)
+  .then(res => {
+    setDTBRMin(res.data)
+  })
+}
+
 
 export default function Diary(){
   const baseUrl = 'http://localhost:3000'
@@ -85,17 +82,20 @@ export default function Diary(){
   const [ quotelist , setQuotelist ] = useState([])
   //all year data for new month (putting current month data into year ) and for history
   const [ allYearsData, setAllYearsData ] = useState([])
-  //see if today new or update
-  const [ isTodayNew, setIsTodayNew ] = useState(null)
   //quill for writer and this month
   const [quill,setQuill] = useState()
+  //cause there was problem in writer form set value
+  const [ writerMode , setWriterMode ] = useState('write_new')
+  //used by dtbr and this_month edit submit
+  const [ dTBRMin , setDTBRMin ] = useState([])
   
   
   useEffect(()=>{
     fetchTaglist(baseUrl, setTaglist)
     fetchQuotelist( baseUrl, setQuotelist )
-    fetchCurrentMonthDaysMin( baseUrl, setCurrentMonthDataMin , setIsTodayNew )
+    fetchCurrentMonthDaysMin( baseUrl, setCurrentMonthDataMin )
     fetchAllYearsData( baseUrl, setAllYearsData )
+    fetchDTBRMin( baseUrl , setDTBRMin )
   },[])
   
   return <Context.Provider value={{
@@ -112,10 +112,12 @@ export default function Diary(){
     setQuotelist,
     allYearsData,
     setAllYearsData,
-    isTodayNew,
-    setIsTodayNew,
     quill,
-    setQuill
+    setQuill,
+    writerMode,
+    setWriterMode,
+    dTBRMin,
+    setDTBRMin
   
   }} >
     <App />

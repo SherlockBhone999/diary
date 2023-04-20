@@ -46,7 +46,9 @@ const TagsField = ({field, setField, disable }) => {
   
   
   return (<div class=''>
+
   <p>Tags : </p>
+
   <div class='grid grid-cols-4 bg-gray-200 m-2 rounded h-60 overflow-scroll'>
   {
     field.map((str,index) => <div key={index} class='bg-blue-200 p-1 m-1 h-min overflow-scroll'>
@@ -57,7 +59,7 @@ const TagsField = ({field, setField, disable }) => {
     </div>)
   }
   </div>
-  
+
   { disable? null :
     <div class='flex m-2 p-2'>
       <input type='text'  onChange={update} value={newTag} ref={inputRef} disabled={disable}/>

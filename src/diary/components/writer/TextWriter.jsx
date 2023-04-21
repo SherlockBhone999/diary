@@ -39,7 +39,7 @@ export default function TextWriter({disable, setDisable }){
   //const [quill,setQuill] = useState()
   const { baseUrl , formdata, setFormdata , quill , setQuill } = useContext(Context)
   
-  
+  /*
   const handleUpload = async (e) =>{
     e.preventDefault()
     const d = quill.getContents()
@@ -51,7 +51,7 @@ export default function TextWriter({disable, setDisable }){
     const data = {blob : pdfAsBlob }
     axios.post(`${baseUrl}/save_pdf_in_backend`, data, config )
   }
-  
+  */
       const containerRef = useCallback(()=>{
         const q = new Quill('#container', {
           theme : 'snow',

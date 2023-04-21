@@ -4,6 +4,8 @@ import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {Context} from '../../Diary'
 import axios from 'axios'
+import ExtraData from './ExtraData'
+
 
 const date = new Date()
 const d = date.getDate()
@@ -45,6 +47,8 @@ export default function Container(){
           setWriterMode('write_new')
         }}>Back</button>
           
+        <ExtraData />
+        
         <List setItemToFetch={setItemToFetch} />
       </div>
       

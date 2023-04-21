@@ -31,12 +31,12 @@ const years = [
       {
         day : '1.2.2020',
         reason : 'i got confessed by a girl',
-        title : ' got confessed'
+        //title : ' got confessed'
       },
       {
         day : '6.8.2020',
         reason : 'I got a job',
-        title : 'got a job'
+        //title : 'got a job'
       }
       
       ],

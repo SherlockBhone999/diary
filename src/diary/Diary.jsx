@@ -68,6 +68,13 @@ const fetchDTBRMin = (baseUrl, setDTBRMin ) => {
   })
 }
 
+const fetchCurrentMonthExtraData = (baseUrl, setCurrentMonthExtraData ) => {
+  axios.get(`${baseUrl}/get_current_month_extra_data`)
+  .then(res => {
+    setCurrentMonthExtraData(res.data[0])
+  })
+}
+
 
 export default function Diary(){
   const baseUrl = 'http://localhost:3000'
@@ -88,6 +95,9 @@ export default function Diary(){
   const [ writerMode , setWriterMode ] = useState('write_new')
   //used by dtbr and this_month edit submit
   const [ dTBRMin , setDTBRMin ] = useState([])
+  //for this month and new month creating year
+  const [ currentMonthExtraData , setCurrentMonthExtraData ] = useState({})
+
   
   
   useEffect(()=>{
@@ -96,6 +106,7 @@ export default function Diary(){
     fetchCurrentMonthDaysMin( baseUrl, setCurrentMonthDataMin )
     fetchAllYearsData( baseUrl, setAllYearsData )
     fetchDTBRMin( baseUrl , setDTBRMin )
+    fetchCurrentMonthExtraData( baseUrl, setCurrentMonthExtraData )
   },[])
   
   return <Context.Provider value={{
@@ -117,7 +128,9 @@ export default function Diary(){
     writerMode,
     setWriterMode,
     dTBRMin,
-    setDTBRMin
+    setDTBRMin,
+    currentMonthExtraData,
+    setCurrentMonthExtraData
   
   }} >
     <App />

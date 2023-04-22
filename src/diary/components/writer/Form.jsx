@@ -48,16 +48,14 @@ const Form = ({disable, setDisable }) => {
   },[])
   
   useEffect(()=>{
-    if(writerMode === 'write_new'){
-      console.log('fetch_today')
-    }else{
+
+    if(writerMode !== 'write_new'){
       setTodayDate(formdata.day)
       setTagsField(formdata.tags)
       setThoughtsField(formdata.thoughts)
       setToBeIncluded(formdata.included_in_days_of_the_year)
       setReason(formdata.reason_to_be_included)
     }
-    
     
     const date = new Date()
     const d = date.getDate()

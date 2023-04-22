@@ -25,8 +25,7 @@ const initialFormdata = {
 export default function Container(){
   const [ itemToFetchFull , setItemToFetch ] = useState()
   const [ chosenComponentForWriterContainer , setChosen ] = useState('initial')
-  //del formdata later
-  const { setFormdata , formdata , setWriterMode } = useContext(Context)
+  const { setFormdata , setWriterMode } = useContext(Context)
   
   const navigate = useNavigate()
 
@@ -36,7 +35,7 @@ export default function Container(){
   },[itemToFetchFull])
   
   return <div>
-  {JSON.stringify(formdata)}
+  
   <div class='flex'>
     
       <div class='w-2/6 bg-gray-500 h-screen'>

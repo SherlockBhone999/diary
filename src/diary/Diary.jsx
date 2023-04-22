@@ -77,7 +77,8 @@ const fetchCurrentMonthExtraData = (baseUrl, setCurrentMonthExtraData ) => {
 
 
 export default function Diary(){
-  const baseUrl = 'http://localhost:3000'
+  //const baseUrl = 'http://localhost:3000'
+  const baseUrl = 'https://bhone-n-diary.onrender.com'
   const [isAdmin, setIsAdmin ] = useState('')
   //for history, homepage
   const [currentMonthDataMin , setCurrentMonthDataMin ] = useState([])

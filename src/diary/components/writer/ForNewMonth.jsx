@@ -102,10 +102,7 @@ const Chosen = () => {
 
   
   return <div class='relative h-48'>
-  currentMonthDaysFull : {JSON.stringify(currentMonthDaysFull)}
-  <hr/>
-  currentMonthExtra : {JSON.stringify(currentMonthExtraData)}
-  <hr/>
+  
   progress : {progress}
   
   <div class='grid'>

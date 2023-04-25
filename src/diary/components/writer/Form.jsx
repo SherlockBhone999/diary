@@ -48,7 +48,7 @@ const Form = ({disable, setDisable }) => {
   },[])
   
   useEffect(()=>{
-
+    //the one place why writerMode is created
     if(writerMode !== 'write_new'){
       setTodayDate(formdata.day)
       setTagsField(formdata.tags)

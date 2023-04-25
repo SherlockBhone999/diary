@@ -3,8 +3,8 @@ import { useState, useEffect, useContext } from 'react'
 import { Context } from '../../Diary'
 import { pdfExporter } from 'quill-to-pdf'
 import axios from 'axios'
-import FormForCreateORUpdateYear from './FormForCreateORUpdateYear'
-
+import FormForUpdatingPreviousYear from './FormForUpdatingPreviousYear'
+import FormForConcludingPreviousYear from './FormForConcludingPreviousYear'
 
 
 
@@ -65,7 +65,7 @@ const uploadPdfToGdrive = (baseUrl, setChosenButton, setCurrentMonthExtraData , 
     const gdriveLink = res.data
     setCurrentMonthExtraData(prevv =>{ return {...prevv, gdriveLink : gdriveLink } })
     setProgress('uploaded_pdf_to_gdrive')
-    setChosenButton('createYear')
+    setChosenButton('concludeYear')
   })
 }
 
@@ -103,13 +103,13 @@ const Chosen = () => {
   const [ chosenButton, setChosenButton ] = useState('start')
   const { baseUrl , currentMonthExtraData, setCurrentMonthExtraData, dTBRMin , allYearsData } = useContext(Context)
   const [ currentMonthDaysFull , setCurrentMonthDaysFull ] = useState([])
-  
+  const [ formdata4CY , setFormdata4CY ] = useState({comment : '', profile_img_link : '', chosenImg : ''})
 
   
   return <div class='relative h-48'>
-  
+  <hr/>
   progress : {progress}
-  
+
   <div class='grid'>
   { chosenButton === 'start'?
     <button class='' onClick={()=>fetch(baseUrl, setChosenButton, setCurrentMonthDaysFull , setProgress )}> start </button> 
@@ -126,12 +126,22 @@ const Chosen = () => {
   { chosenButton === 'uploadPdfToGdrive'?
     <button class='' onClick={()=>uploadPdfToGdrive( baseUrl, setChosenButton, setCurrentMonthExtraData, setProgress )} > upload pdf </button>
   : null }
-  
-  { chosenButton === 'createYear' ?
-    <div class='absolute w-full h-full top-0 left-0 bg-black bg-opacity-40 '>  
-      <FormForCreateORUpdateYear setChosenButton={setChosenButton}
+
+  { chosenButton === 'concludeYear'?
+    <div class='absolute w-full h-full top-0 left-0 bg-black bg-opacity-40 mt-5 '>  
+      <FormForConcludingPreviousYear setChosenButton={setChosenButton}
       setProgress={setProgress}
-      currentMonthDaysFull={currentMonthDaysFull}/>
+      formdata4CY={formdata4CY} 
+      setFormdata4CY={setFormdata4CY} />
+    </div>
+  : null }
+  
+  { chosenButton === 'updateYear' ?
+    <div class='absolute w-full h-full top-0 left-0 bg-black bg-opacity-40 '>  
+      <FormForUpdatingPreviousYear setChosenButton={setChosenButton}
+      setProgress={setProgress}
+      currentMonthDaysFull={currentMonthDaysFull}
+      formdata4CY={formdata4CY}/>
     </div>
   : null }
   
@@ -156,8 +166,13 @@ const Chosen = () => {
   
   <hr/>
   <hr/>
-  <button class='' onClick={()=>setChosenButton('createYear')}> create Year </button>
+  <button class='' onClick={()=>setChosenButton('concludeYear')}> concludeYear </button>
+  <button class='' onClick={()=>setChosenButton('updateYear')}> updateYear </button>
+  <button class='' onClick={()=>{
+    axios.post('http://localhost:3000/delete_img_in_cloudinary', {})
+  }}> deleteimgincloudinary </button>
   <button class='' onClick={()=>deletePdfsInBackend( baseUrl, setChosenButton, setProgress )}>deletePdfs</button>
+
   </div>
 }
 

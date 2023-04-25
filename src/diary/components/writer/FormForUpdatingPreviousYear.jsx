@@ -53,54 +53,12 @@ const getNewMonthObj = (currentMonthDaysFull, currentMonthExtraData ) => {
 }
 
 
-const createYear = (baseUrl, setChosenButton, currentMonthDaysFull, currentMonthExtraData, setProgress , dTBRMin , allYearsData ) => {
+const updatePreviousYear = (baseUrl, setChosenButton, currentMonthDaysFull, currentMonthExtraData, setProgress , dTBRMin , allYearsData , formdata4CY ) => {
   const date = new Date()
-  const year = date.getFullYear().toString()
-  //check new year or not
-  const years = []
-  allYearsData.map(year => {
-    years.push(year.year)
-  })
+  //const y = date.getFullYear() - 1
+  const y = date.getFullYear()
+  const year = y.toString()
   
-  if(!years.includes(year)){
-      /*
-      const newMonthData = {
-            month : '1.2020',
-            resolution : 'get a job',
-            resolution_fulfilled : 'no',
-            comment : 'code code code',
-            thoughts : ['i so horny', 'i want to spy on peoples'],
-            gdrive_file_link : 'link',
-            pie_data : [
-              {tag:'help mom', count : 30 }, 
-              {tag : 'code', count : 20 }, 
-              {tag : 'exercise', count : 22 },
-              {tag : 'sing' , count : 30 },
-              { tag : 'waste time on youtube : big ', count : 5 },
-              { tag : 'waste time in toilet' , count : 10 }
-              ]
-      }
-  */
-      const newMonthData = getNewMonthObj(currentMonthDaysFull, currentMonthExtraData)
-      const monthsData = [ newMonthData ]
-      
-      
-      const dTBRInThisYear = []
-      dTBRMin.map(day => {
-        if( day.day.includes(year) ){
-          dTBRInThisYear.push(day)
-        }
-      })
-      
-      const data = {
-        year : year,
-        days_of_the_year : dTBRInThisYear ,
-        months : monthsData 
-      }
-      
-      axios.post(`${baseUrl}/create_year`, data )
-  } else {
-    //update
       const newMonthData = getNewMonthObj( currentMonthDaysFull, currentMonthExtraData)
       var oldMonths = []
       var idForTheYear = ''
@@ -126,11 +84,13 @@ const createYear = (baseUrl, setChosenButton, currentMonthDaysFull, currentMonth
         year : year,
         days_of_the_year : dTBRInThisYear ,
         months : monthsData,
-        _id : idForTheYear
+        _id : idForTheYear,
+        comment : formdata4CY.comment,
+        profile_img_link : formdata4CY.profile_img_link
       }
       
       axios.post(`${baseUrl}/update_year`, data )
-  }
+  
   
   setProgress('created_year')
   setChosenButton('deleteCurrentMonthDaysAndExtra')
@@ -153,20 +113,23 @@ const updateComment = (e, setCurrentMonthExtraData ) => {
   })
 }
 
-export default function App({setChosenButton, currentMonthDaysFull , setProgress }){
+export default function App({setChosenButton, currentMonthDaysFull , setProgress , formdata4CY }){
   const { baseUrl , currentMonthExtraData, setCurrentMonthExtraData, dTBRMin , allYearsData } = useContext(Context)
   
   return <div class=''>
-  {JSON.stringify(currentMonthExtraData)}
+  
   <div class='flex justify-center '>
     <div class='grid m-3 gap-2'>
       <input class='w-80 rounded' type='text' placeholder='...resolution fulfilled?' 
       onChange={(e)=>updateResolutionFulfilled(e, setCurrentMonthExtraData )}/>
+      
       <textarea class='rounded' placeholder='...comment for the month' 
       onChange={(e)=>updateComment(e, setCurrentMonthExtraData )} />
+      
       <div class='flex justify-center'>
-        <button class=' bg-blue-400 p-2 m-2 rounded' onClick={()=>createYear(baseUrl, setChosenButton, currentMonthDaysFull, currentMonthExtraData, setProgress , dTBRMin , allYearsData )}> create Year </button>
+        <button class=' bg-blue-400 p-2 m-2 rounded' onClick={()=>updatePreviousYear(baseUrl, setChosenButton, currentMonthDaysFull, currentMonthExtraData, setProgress , dTBRMin , allYearsData , formdata4CY )}> update Year </button>
       </div>
+      
     </div>
   </div>
   

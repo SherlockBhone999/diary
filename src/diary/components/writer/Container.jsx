@@ -1,5 +1,6 @@
 import FormContainer from './FormContainer'
 import NewMonthContainer from './NewMonthContainer'
+import NewYearContainer from './NewYearContainer'
 import {useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Context } from '../../Diary'
@@ -7,12 +8,13 @@ import axios from 'axios'
 
 
 const date = new Date()
-const m = date.getMonth() + 1 
+const m = date.getMonth() + 1 + 1
 const y = date.getFullYear()
 const thisMonth = m + '.' + y
 const d = date.getDate()
 const today = d + '.' + m + '.' + y
-
+const thisYear = y
+//const thisYear = y + 1
 
 const fetchToday = (baseUrl, id , quill, setFormdata ) => {
   axios.post(`${baseUrl}/get_current_month_day`, { _id : id} )
@@ -25,20 +27,22 @@ const fetchToday = (baseUrl, id , quill, setFormdata ) => {
 
 export default function Container() {
   const navigate = useNavigate()
-  const { currentMonthDataMin , setWriterMode , setFormdata , quill, baseUrl, writerMode } = useContext(Context)
-  const [isNewMonth , setIsNewMonth ] = useState(null)
+  const { currentMonthExtraData, currentMonthDataMin , setWriterMode , setFormdata , quill, baseUrl, writerMode } = useContext(Context)
+  const [isNew , setIsNew ] = useState('not_new')
   
   useEffect(()=>{
-    const monthOfCurrentMonthData = currentMonthDataMin.month 
+    const monthOfCurrentMonthData = currentMonthExtraData.month 
     if(thisMonth === monthOfCurrentMonthData ){
-      setIsNewMonth(false)
+      setIsNew('not_new')
+    }else if(!monthOfCurrentMonthData.includes(thisYear.toString())){ 
+      setIsNew('new_year')
     }else{
-      setIsNewMonth(true)
+      setIsNew('new_month')
     }
-  
   },[])
   
   useEffect(()=>{
+    //second place why writerMode is needed
     if(writerMode === 'update_today'){
       var idOfToday = ""
       currentMonthDataMin.map(day => { 
@@ -51,10 +55,11 @@ export default function Container() {
   },[writerMode])
 
   return <div>
-    {JSON.stringify(currentMonthDataMin)}
+    {JSON.stringify(currentMonthExtraData)}
     <button onClick={()=>navigate('/')}>back</button>
   
-    {isNewMonth? <NewMonthContainer /> : null }
-    {isNewMonth===false? <FormContainer /> : null }
+    {isNew === 'new_month'? <NewMonthContainer /> : null }
+    {isNew === 'not_new'? <FormContainer /> : null }
+    { isNew === 'new_year'? <NewYearContainer /> : null }
   </div>
 }

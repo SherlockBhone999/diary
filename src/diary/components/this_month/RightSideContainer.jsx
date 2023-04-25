@@ -17,7 +17,7 @@ const LoadingDiv = () => {
 }
 
 const fetchItem = (baseUrl , setFormdata , setChosen , itemToFetch , setWriterMode ) => {
-  axios.post(`${baseUrl}/get_current_month_day`, itemToFetch )
+  axios.post(`${baseUrl}/get_current_month_day_one`, itemToFetch )
   .then(res =>{
     setWriterMode('load_this_month_day')
     setFormdata(res.data)

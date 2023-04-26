@@ -3,7 +3,7 @@ import { useState, useEffect , useContext } from 'react'
 import {Context} from '../../Diary'
 import axios from 'axios'
 //import FormContainer from './FormContainer'
-import FormContainer from './FormContainer2'
+import FormContainer from './FormContainer'
 
 import {allData} from '../../fakedata2'
 const {daysToBeRemembered} = allData
@@ -13,8 +13,8 @@ const deltaa = {"ops":[{insert:"Bhone"},{ attributes:{bold:true},insert:"5.4.202
  
 const LoadingDiv = () => {
   return <div class='h-screen'>
-      <div class='flex justify-center items-center h-full'>
-        <div class=' p-2 w-1/6 '>
+      <div class='flex justify-center h-full relative'>
+        <div class=' p-2 w-1/6 absolute top-[27vh]'>
           <img src={loadingGif} class='rounded'/>
         </div>
       </div>
@@ -44,8 +44,8 @@ const FetchButton = ({setChosen, itemToFetch }) => {
   const {baseUrl , setFormdata } = useContext(Context)
   return <div class='h-screen'>
     { itemToFetch?
-      <div class='flex justify-center items-center h-full'>
-        <div class=''>
+      <div class='flex justify-center h-full relative'>
+        <div class='absolute top-80'>
           <button onClick={()=>{
             setChosen('loading')
             fetchItem(baseUrl, setFormdata , setChosen , itemToFetch )

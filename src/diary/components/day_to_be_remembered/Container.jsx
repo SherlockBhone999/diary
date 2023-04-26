@@ -1,5 +1,5 @@
 import List from './List'
-import RightSideContainer from './RightSideContainer2'
+import MainContainer from './MainContainer'
 import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {Context} from '../../Diary'
@@ -31,23 +31,21 @@ export default function Container () {
   },[itemToFetchFull])
 
   return <div>
+    <button class='bg-blue-400 m-2 p-2 rounded'
+    onClick={()=>navigate('/')}>Home</button>
+          
     <div class='flex'>
-
-      <div class='w-2/6 bg-gray-500 h-screen'>
-        <button class='bg-blue-400 m-2 p-2 rounded'
-        onClick={()=>navigate('/')}>Back</button>
-        
+  
+      <div class='w-3/12 h-screen bg-slate-400 border-2 border-black'>
         <List list={dTBRMin} setItemToFetch={setItemToFetch} />
-      
-      </div>
- 
-      <div class='w-4/6 bg-gray-400 h-screen'>
-        <RightSideContainer itemToFetch={itemToFetchFull} 
+      </div> 
+  
+      <div class='w-9/12 bg-gray-400 h-screen overflow-hidden'>
+        <MainContainer itemToFetch={itemToFetchFull} 
         chosen={chosenComponentForWriterContainer} 
         setChosen={setChosen}/>
       </div>
-      
-    </div> 
   
+    </div>
   </div>
 }

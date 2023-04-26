@@ -77,8 +77,8 @@ export default function TextWriter({disable, setDisable }){
     
   
   
-  return <div class='bg-black'>
-  <div class='bg-rose-200 w-20 mt-4'>
+  return <div class=''>
+  <div class='w-20'>
     { disable? 
     <button class='m-2 p-2 bg-blue-400 rounded' onClick={()=>{
       quill.enable()
@@ -95,11 +95,11 @@ export default function TextWriter({disable, setDisable }){
     }
   </div>
   
-  <div class='bg-rose-200 p-2'>
-    <div class=' m-3 bg-gray-200 rounded border-2 border-black'>
-      <div id='container' ref={containerRef} ></div>
-    </div>
+
+  <div class=' m-3 bg-gray-200 rounded border-2 border-black'>
+    <div id='container' ref={containerRef} ></div>
   </div>
+  
   
   
   </div>

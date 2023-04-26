@@ -26,7 +26,7 @@ export default function Container(){
   const [ itemToFetchFull , setItemToFetch ] = useState()
   const [ chosenComponentForWriterContainer , setChosen ] = useState('initial')
   const { setFormdata , setWriterMode } = useContext(Context)
-  
+  const [ sideStyle, setSideStyle ] = useState('')
   const navigate = useNavigate()
 
   useEffect(()=>{
@@ -35,27 +35,50 @@ export default function Container(){
   },[itemToFetchFull])
   
   return <div>
-  
-  <div class='flex'>
-    
-      <div class='w-2/6 bg-gray-500 h-screen'>
-        <button class='bg-blue-400 m-2 p-2 rounded'
-        onClick={()=>{
-          navigate('/')
-          setFormdata(initialFormdata)
-          setWriterMode('write_new')
-        }}>Back</button>
-          
-        <ExtraData />
+
+    <button class='bg-blue-400 m-2 p-2 rounded '
+      onClick={()=>{
+      navigate('/')
+      setFormdata(initialFormdata)
+      setWriterMode('write_new')
+    }}>Home</button>
         
-        <List setItemToFetch={setItemToFetch} />
-      </div>
-      
-      <div class='w-4/6 bg-gray-400 h-screen'>
+  <div class='relative'>
+    
+      <div class='w-screen bg-gray-400 h-screen overflow-hidden'>
+
+        
+          <button class='bg-blue-400 m-2 p-2 rounded'
+          onClick={()=>{
+            setSideStyle('translate-x-full')
+          }}>Menu</button>
+
+        
         <RightSideContainer itemToFetch={itemToFetchFull} 
         chosen={chosenComponentForWriterContainer} 
         setChosen={setChosen}/>
       </div>
+    
+    
+    
+    
+    
+    
+      <div class={`absolute w-3/12 h-screen bg-slate-300 top-0 right-[100%] transition duration-500 ${sideStyle}`}>
+
+
+        
+        <button class='bg-blue-400 m-2 p-2 rounded'
+        onClick={()=>{
+          setSideStyle('')
+        }}>back</button>
+    
+        <ExtraData />
+        
+        <List setItemToFetch={setItemToFetch} setSideStyle={setSideStyle}/>
+      </div>
+      
+
       
     </div> 
     

@@ -8,16 +8,17 @@ import axios from 'axios'
 
 
 const date = new Date()
-const m = date.getMonth() + 1 + 1
+const m = date.getMonth() + 1
 const y = date.getFullYear()
 const thisMonth = m + '.' + y
-const d = date.getDate()
+const d = date.getDate() 
 const today = d + '.' + m + '.' + y
 const thisYear = y
-//const thisYear = y + 1
+
+
 
 const fetchToday = (baseUrl, id , quill, setFormdata ) => {
-  axios.post(`${baseUrl}/get_current_month_day`, { _id : id} )
+  axios.post(`${baseUrl}/get_current_month_day_one`, { _id : id} )
   .then(res => {
     setFormdata(res.data)
     quill.setContents(res.data.delta_data)
@@ -28,7 +29,7 @@ const fetchToday = (baseUrl, id , quill, setFormdata ) => {
 export default function Container() {
   const navigate = useNavigate()
   const { currentMonthExtraData, currentMonthDataMin , setWriterMode , setFormdata , quill, baseUrl, writerMode } = useContext(Context)
-  const [isNew , setIsNew ] = useState('not_new')
+  const [isNew , setIsNew ] = useState('')
   
   useEffect(()=>{
     const monthOfCurrentMonthData = currentMonthExtraData.month 
@@ -55,7 +56,7 @@ export default function Container() {
   },[writerMode])
 
   return <div>
-    {JSON.stringify(currentMonthExtraData)}
+    {JSON.stringify(currentMonthDataMin)}
     <button onClick={()=>navigate('/')}>back</button>
   
     {isNew === 'new_month'? <NewMonthContainer /> : null }

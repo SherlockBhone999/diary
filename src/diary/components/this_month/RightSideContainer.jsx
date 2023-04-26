@@ -8,8 +8,8 @@ import FormContainer from '../writer/FormContainer'
 
 const LoadingDiv = () => {
   return <div class='h-screen'>
-      <div class='flex justify-center items-center h-full'>
-        <div class=' p-2 w-1/6 '>
+      <div class='flex justify-center h-full relative'>
+        <div class='absolute top-[25vh] p-2 w-1/6 '>
           <img src={loadingGif} class='rounded'/>
         </div>
       </div>
@@ -29,13 +29,12 @@ const FetchButton = ({setChosen, itemToFetch }) => {
   const {baseUrl , setFormdata , setWriterMode } = useContext(Context)
   return <div class='h-screen'>
     { itemToFetch?
-      <div class='flex justify-center items-center h-full'>
-        <div class=''>
+      <div class='flex justify-center h-full relative'>
+        <div class='absolute top-80'>
           <button onClick={()=>{
             setChosen('loading')
             fetchItem(baseUrl, setFormdata , setChosen , itemToFetch , setWriterMode )
-            
-            //test(itemToFetch, setFormdata , setChosen )
+  
           } }>fetch {itemToFetch.day}</button>
         </div>
       </div>

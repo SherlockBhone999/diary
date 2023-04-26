@@ -20,9 +20,14 @@ export default function ExtraData(){
   
   return <div>
   
-    <div class='flex items-center'>
-    <textarea value={resolution} onChange={(e)=>setResolution(e.target.value)}/>
-    <button class='p-1 m-1 bg-blue-400 rounded ' onClick={()=>updateExtraData(baseUrl,resolution, currentMonthExtraData )}>update</button>
+  
+    <div>
+      <p class='text-sm'>Resolution :</p>
+      <div class='flex items-center'>
+        <textarea value={resolution} onChange={(e)=>setResolution(e.target.value)}/>
+        <button class='p-1 m-1 bg-blue-400 rounded ' onClick={()=>updateExtraData(baseUrl,resolution, currentMonthExtraData )}>update</button>
+      </div>
     </div>
+  
   </div>
 }

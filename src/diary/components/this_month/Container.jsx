@@ -64,18 +64,17 @@ export default function Container(){
     
     
     
-      <div class={`absolute w-3/12 h-screen bg-slate-300 top-0 right-[100%] transition duration-500 ${sideStyle}`}>
+      <div class={`absolute w-3/12 h-screen bg-slate-300 top-0 right-[100%] transition duration-500 overflow-scroll ${sideStyle}`}>
 
-
-        
         <button class='bg-blue-400 m-2 p-2 rounded'
         onClick={()=>{
           setSideStyle('')
         }}>back</button>
-    
-        <ExtraData />
         
         <List setItemToFetch={setItemToFetch} setSideStyle={setSideStyle}/>
+
+        <ExtraData />
+          
       </div>
       
 

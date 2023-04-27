@@ -3,49 +3,60 @@ import { Context } from '../../Diary'
 import axios from 'axios'
 import emptyimg from '../../../assets/empty.png'
 
-const updateCommentY = (e, setFormdata4CY) => {
+const updateCommentY = (e, setPrevYear, setFormdata4CY ) => {
   const input = e.target.value
-  setFormdata4CY(prevv => {
+  setPrevYear(prevv => {
     const data = {...prevv , comment : input }
     return data
   })
+  setPrevYear(prevv => {
+    const data = {...prevv , comment : input }
+    return data
+  })
+  
 }
 
-const updateChosenImg = (e,setFormdata4CY) => {
+const updateChosenImg = (e,setPrevYear) => {
   const inputFile = e.target.files[0]
-  setImgFileToBase64(inputFile, setFormdata4CY)
+  setImgFileToBase64(inputFile, setPrevYear)
 }
 
-const setImgFileToBase64 = (inputFile, setFormdata4CY) => {
+const setImgFileToBase64 = (inputFile, setPrevYear) => {
   const reader = new FileReader()
   reader.readAsDataURL(inputFile)
   reader.onloadend = () => {
-    setFormdata4CY(prevv => {
-      const data = {...prevv , chosenImg : reader.result }
+    setPrevYear(prevv => {
+      const data = {...prevv, chosenImg : reader.result }
       return data
-    })
+    }) 
   }
 }
 
-const handleSubmit = (baseUrl, formdata4CY, setProgress, setChosenButton, setFormdata4CY ) => {
-  const data = { img : formdata4CY.chosenImg } 
-  //send img to backend
+//unlike in history year partly update, after this step adding the month into year is also updating, so do not reuse the api call from history chart of the year
+const handleSubmit = async (baseUrl, prevYear, setProgress, setChosenButton, setFormdata4CY ) => {
+
+  const data = { img : prevYear.chosenImg }
   
-  axios.post(`${baseUrl}/upload_img_to_cloudinary`, data )
+ await axios.post(`${baseUrl}/upload_img_to_cloudinary`, data )
   .then(res => {
-    const link = res.data
-    const data = { comment : formdata4CY.comment, profile_img_link : link }
-    setFormdata4CY(data)
-    console.log(data)
+    console.log('upload_img_to_cloudinary',res.data)
+    setFormdata4CY(prevv => {
+      const data = {...prevv, profile_img_link : res.data }
+      return data
+    })
+    console.log(res.data)
     setChosenButton('updateYear')
-    setProgress('concluded the year')
   })
+  
+  const cloudinary_id = prevYear.profile_img_link.slice(71,91)
+  axios.post(`${baseUrl}/delete_img_in_cloudinary`, {public_id : cloudinary_id })
+
 }
 
 export default function App({setChosenButton, setProgress , formdata4CY, setFormdata4CY}){
   const { baseUrl, allYearsData } = useContext(Context)
  // const [ formdata4CY , setFormdata4CY ] = useState({comment : '', profile_img_link : '', chosenImg : ''})
-  const [ prevYear, setPrevYear ] = useState({})
+  const [ prevYear, setPrevYear ] = useState({comment : '', chosenImg : '', profile_img_link : ''})
   
   useEffect(()=>{
     const date = new Date()
@@ -55,38 +66,50 @@ export default function App({setChosenButton, setProgress , formdata4CY, setForm
     
     allYearsData.map(yearr => {
       if(yearr.year === previousYear ){
-        setPrevYear(yearr)
-        setFormdata4CY(prevv => {
-          return {...prevv, comment : yearr.comment }
-        })
+        setPrevYear({...prevYear,...yearr})
       }
     })
   
   },[allYearsData])
   
-  return <div class='grid'>
- 
-      <textarea class='rounded mt-5' placeholder = '...comment for the year' value={formdata4CY.comment}
-      onChange={(e)=>updateCommentY(e,setFormdata4CY )} />
-      
-      <input type='file' onChange={(e)=>updateChosenImg(e,setFormdata4CY)}/>
-      
-      { prevYear.profile_img_link?
-        <div class='w-40'>
-          <img src={prevYear.profile_img_link} />
+  return <div>
+  {JSON.stringify(prevYear.chosenImg)}
+  <hr/>
+  {JSON.stringify(prevYear.profile_img_link)}
+    <div class='flex justify-center'>
+      <div class='grid'  >
+        <div class='w-full flex justify-center'>
+          <div class='w-40'>
+            { prevYear.chosenImg === '' ?
+              <div class='w-40 relative'>
+                { prevYear.profile_img_link?
+                  <img src={prevYear.profile_img_link} />
+                  :
+                  <img src={emptyimg} />
+                }
+              </div>
+            :
+              <div class='w-40 relative'>
+                <img src={prevYear.chosenImg} />
+              </div>
+            }
+          </div>
+          
         </div>
-      :
-        <div class='w-40'>
-          { formdata4CY.chosenImg === '' ? <img src={emptyimg} /> : null }
-          { formdata4CY.chosenImg !== '' ? <img src={formdata4CY.chosenImg} /> : null }
+        
+        <input type='file' onChange={(e)=>updateChosenImg(e,setPrevYear)}
+        class='w-[115px] bg-blue-400 m-1 p-3 rounded'/>
+        
+        <textarea class='rounded m-1 p-2' value={prevYear.comment}
+        onChange={(e)=>updateCommentY(e,setPrevYear ,setFormdata4CY)} />
+        
+        <div class='flex justify-center'>
+          <button class=' bg-blue-400 p-2 m-2 rounded' onClick={()=>handleSubmit(baseUrl, prevYear,setProgress, setChosenButton , setFormdata4CY )}> conclude year</button>
         </div>
-      }
-      
-      <div class='flex justify-center'>
-        <button class=' bg-blue-400 p-2 m-2 rounded' onClick={()=>handleSubmit(baseUrl, formdata4CY,setProgress, setChosenButton , setFormdata4CY )}> conclude year</button>
       </div>
-    
-      <button onClick={()=>console.log(prevYear)}>click</button>
+    </div>
+  
+    <button onClick={()=>console.log(prevYear)}>click</button>
   
   </div>
 }

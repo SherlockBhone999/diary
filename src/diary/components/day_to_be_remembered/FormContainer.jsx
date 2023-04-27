@@ -39,13 +39,13 @@ export default function FormContainer () {
   return <div class='relative'>
  
   <div id="necessary_for_delbox_to_cover_this_div">
-    <div class='m-2 relative'>
+    <div class=' relative'>
    
       <TextWriter disable={editDisabled} setDisable={setEditDisabled} />
       <button class='bg-red-500 m-2 p-2 rounded absolute top-0 left-20' onClick={()=>setShowDeleteBox('')}> delete </button>
     </div>
     
-    <div class='bg-gray-200 p-5 m-2'>
+    <div class='bg-gray-200 p-4 m-3'>
       <input type='text' placeholder='...short reason' class='w-full rounded p-2 border-2 border-black' 
       disabled={editDisabled} value={formdata.reason} 
       onChange={(e)=>{

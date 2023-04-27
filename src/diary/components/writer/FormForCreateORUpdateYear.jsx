@@ -156,19 +156,24 @@ const updateComment = (e, setCurrentMonthExtraData ) => {
 export default function App({setChosenButton, currentMonthDaysFull , setProgress }){
   const { baseUrl , currentMonthExtraData, setCurrentMonthExtraData, dTBRMin , allYearsData } = useContext(Context)
   
-  return <div class=''>
-  {JSON.stringify(currentMonthExtraData)}
-  <div class='flex justify-center '>
-    <div class='grid m-3 gap-2'>
-      <input class='w-80 rounded' type='text' placeholder='...resolution fulfilled?' 
-      onChange={(e)=>updateResolutionFulfilled(e, setCurrentMonthExtraData )}/>
-      <textarea class='rounded' placeholder='...comment for the month' 
-      onChange={(e)=>updateComment(e, setCurrentMonthExtraData )} />
-      <div class='flex justify-center'>
-        <button class=' bg-blue-400 p-2 m-2 rounded' onClick={()=>createYear(baseUrl, setChosenButton, currentMonthDaysFull, currentMonthExtraData, setProgress , dTBRMin , allYearsData )}> create Year </button>
+  return <div class='relative w-full'>
+    <div class='absolute top-20 w-full'>
+      <div class='flex justify-center w-full'>
+        <div class='grid m-3 gap-2'>
+          <p class='test-2xs text-white m-2'>{currentMonthExtraData.resolution}</p>
+          
+          <input class='w-80 rounded p-2' type='text' value={currentMonthExtraData.resolution_fulfilled} 
+          onChange={(e)=>updateResolutionFulfilled(e, setCurrentMonthExtraData )}/>
+          
+          <textarea class='rounded p-2' value={currentMonthExtraData.comment}
+          onChange={(e)=>updateComment(e, setCurrentMonthExtraData )} />
+          
+          <div class='flex justify-center'>
+            <button class=' bg-blue-400 p-2 m-2 rounded' onClick={()=>createYear(baseUrl, setChosenButton, currentMonthDaysFull, currentMonthExtraData, setProgress , dTBRMin , allYearsData )}> create Year </button>
+          </div>
+          
+        </div>
       </div>
     </div>
-  </div>
-  
   </div>
 }

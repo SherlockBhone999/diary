@@ -22,7 +22,7 @@ const fetch = (baseUrl, setChosenButton, setCurrentMonthDaysFull, setProgress ) 
 
 
 const savePdfsInBackend = (baseUrl, setChosenButton, currentMonthDaysFull , 
-setProgress ) => {
+  setProgress ) => {
   
   const config = {
     headers: {
@@ -105,59 +105,59 @@ const Chosen = () => {
   const [ currentMonthDaysFull , setCurrentMonthDaysFull ] = useState([])
   
 
+  const btnStyle = 'bg-blue-400 p-6 mb-4 rounded'
   
-  return <div class='relative h-48'>
+  return <div >
   
-  progress : {progress}
-  
-  <div class='grid'>
-  { chosenButton === 'start'?
-    <button class='' onClick={()=>fetch(baseUrl, setChosenButton, setCurrentMonthDaysFull , setProgress )}> start </button> 
-  : null}
-  
-  { chosenButton === 'savePdfsInBackend'?
-    <button class='' onClick={()=>savePdfsInBackend( baseUrl, setChosenButton, currentMonthDaysFull , setProgress )}> generate pdf</button>
-  : null }
-  
-  { chosenButton === 'merge_pdfs'?
-    <button class='' onClick={()=>mergePdfsInBackend(baseUrl, setChosenButton, setProgress)}> merge pdfs</button>
-  : null }
-  
-  { chosenButton === 'uploadPdfToGdrive'?
-    <button class='' onClick={()=>uploadPdfToGdrive( baseUrl, setChosenButton, setCurrentMonthExtraData, setProgress )} > upload pdf </button>
-  : null }
-  
-  { chosenButton === 'createYear' ?
-    <div class='absolute w-full h-full top-0 left-0 bg-black bg-opacity-40 '>  
-      <FormForCreateORUpdateYear setChosenButton={setChosenButton}
-      setProgress={setProgress}
-      currentMonthDaysFull={currentMonthDaysFull}/>
-    </div>
-  : null }
-  
-  { chosenButton === 'deleteCurrentMonthDaysAndExtra'?
-    <button class='' onClick={()=>deleteCurrentMonthDaysAndExtra(baseUrl, setChosenButton, currentMonthDaysFull, currentMonthExtraData , setProgress )}>delete current month</button>
-  : null }
-  
-  { chosenButton === 'deletePdfsInBackend'?
-    <button class='' onClick={()=>deletePdfsInBackend( baseUrl, setChosenButton, setProgress )}>deletePdfs</button>
-  : null }
-  
-  { chosenButton === 'done'?
-    <button class='' onClick={()=>{}}>done</button>
-  : null }
-  
-  </div>
-  
+    <div class='relative h-[50vh] bg-gray-400'>
+      <p class='absolute top-20 text-2xl m-2 bg-slate-600 text-white border-2 border-white p-4'> progress : {progress} </p>
+      
+      <div class='flex justify-center items-center h-full '>
+        { chosenButton === 'start'?
+          <button onClick={()=>fetch(baseUrl, setChosenButton, setCurrentMonthDaysFull , setProgress )} class={btnStyle}> start </button> 
+        : null}
+        
+        { chosenButton === 'savePdfsInBackend'?
+          <button onClick={()=>savePdfsInBackend( baseUrl, setChosenButton, currentMonthDaysFull , setProgress )} class={btnStyle}> generate pdf</button>
+        : null }
+        
+        { chosenButton === 'merge_pdfs'?
+          <button onClick={()=>mergePdfsInBackend(baseUrl, setChosenButton, setProgress)} class={btnStyle}> merge pdfs</button>
+        : null }
+        
+        { chosenButton === 'uploadPdfToGdrive'?
+          <button onClick={()=>uploadPdfToGdrive( baseUrl, setChosenButton, setCurrentMonthExtraData, setProgress )} class={btnStyle}> upload pdf </button>
+        : null }
+        
+        { chosenButton === 'deleteCurrentMonthDaysAndExtra'?
+          <button onClick={()=>deleteCurrentMonthDaysAndExtra(baseUrl, setChosenButton, currentMonthDaysFull, currentMonthExtraData , setProgress )}
+          class={btnStyle}>delete current month</button>
+        : null }
+        
+        { chosenButton === 'deletePdfsInBackend'?
+          <button onClick={()=>deletePdfsInBackend( baseUrl, setChosenButton, setProgress )} class={btnStyle}>deletePdfs</button>
+        : null }
+        
+        { chosenButton === 'done'?
+          <button class={btnStyle} onClick={()=>{}}>done</button>
+        : null }
+      
+      </div>
+    
+      { chosenButton === 'createYear' ?
+        <div class='absolute top-0 bg-black bg-opacity-80 h-full w-full'>  
+          <FormForCreateORUpdateYear setChosenButton={setChosenButton}
+          setProgress={setProgress}
+          currentMonthDaysFull={currentMonthDaysFull}/>
+        </div>
+      : null }
+        
+    </div>  
     
 
+  <button class='p-4 m-4 ' onClick={()=>setChosenButton('createYear')}> hi </button>
+  <button class='p-4 m-4' onClick={()=>deletePdfsInBackend( baseUrl, setChosenButton, setProgress )}>deletePdfs</button>
   
-
-  
-  <hr/>
-  <hr/>
-  <button class='' onClick={()=>setChosenButton('createYear')}> create Year </button>
-  <button class='' onClick={()=>deletePdfsInBackend( baseUrl, setChosenButton, setProgress )}>deletePdfs</button>
   </div>
 }
 

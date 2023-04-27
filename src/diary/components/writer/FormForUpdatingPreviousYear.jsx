@@ -88,7 +88,8 @@ const updatePreviousYear = (baseUrl, setChosenButton, currentMonthDaysFull, curr
         comment : formdata4CY.comment,
         profile_img_link : formdata4CY.profile_img_link
       }
-      
+  
+
       axios.post(`${baseUrl}/update_year`, data )
   
   
@@ -116,14 +117,16 @@ const updateComment = (e, setCurrentMonthExtraData ) => {
 export default function App({setChosenButton, currentMonthDaysFull , setProgress , formdata4CY }){
   const { baseUrl , currentMonthExtraData, setCurrentMonthExtraData, dTBRMin , allYearsData } = useContext(Context)
   
-  return <div class=''>
+  return <div class='relative w-full'>
   
-  <div class='flex justify-center '>
+  <div class='absolute top-20 flex justify-center w-full'>
     <div class='grid m-3 gap-2'>
-      <input class='w-80 rounded' type='text' placeholder='...resolution fulfilled?' 
+      <p class='m-2 text-2xs text-white'>{currentMonthExtraData.resolution}</p>
+    
+      <input class='w-80 rounded p-2' type='text' value={currentMonthExtraData.resolution_fulfilled} 
       onChange={(e)=>updateResolutionFulfilled(e, setCurrentMonthExtraData )}/>
       
-      <textarea class='rounded' placeholder='...comment for the month' 
+      <textarea class='rounded p-2' value={currentMonthExtraData.comment}
       onChange={(e)=>updateComment(e, setCurrentMonthExtraData )} />
       
       <div class='flex justify-center'>

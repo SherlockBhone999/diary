@@ -1,6 +1,7 @@
 import TextWriter from './TextWriter'
 import Form from './Form'
 import {useState, useEffect, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { Context } from '../../Diary'
 
@@ -51,7 +52,7 @@ const updateCurrentMonthDay = (baseUrl, formdata ) => {
   axios.post(`${baseUrl}/update_current_month_day`, formdata )
 }
 
-const handleSubmit = (baseUrl , formdata , taglist , currentMonthDataMin , dTBRMin ) => {
+const handleSubmit = (baseUrl , formdata , taglist , currentMonthDataMin , dTBRMin, navigate ) => {
   
   const arrOfDays = []
   currentMonthDataMin.map(day => {
@@ -66,7 +67,7 @@ const handleSubmit = (baseUrl , formdata , taglist , currentMonthDataMin , dTBRM
   }else{
     createNewCurrentMonthDay(baseUrl, formdata)
   }
-  
+  navigate('/this_month')
 }
 
 
@@ -77,6 +78,9 @@ export default function FormContainer () {
   const { formdata , baseUrl , taglist, currentMonthDataMin, dTBRMin } = useContext(Context)
   const [ formStyle , setFormStyle ] = useState({ bStyle : 'opacity-60' , CStyle : 'hidden' })
   const [ writerStyle , setWriterStyle ] = useState({ bStyle : 'mb-0' , CStyle : '' })
+  const navigate = useNavigate()
+  
+  
   return <div>
 
   <div class='flex '>
@@ -115,7 +119,7 @@ export default function FormContainer () {
         { disableForm && disableTextWriter?
           <button class='w-40 h-24 bg-blue-400 rounded border-2 border-black'
           onClick={()=>handleSubmit(baseUrl , formdata , taglist, currentMonthDataMin,
-          dTBRMin )}>
+          dTBRMin, navigate )}>
           submit</button>
         : null }
       </div>
@@ -128,7 +132,7 @@ export default function FormContainer () {
     { disableTextWriter && disableForm ?
       <button class='w-40 h-24 bg-blue-400 rounded border-2 border-black'
       onClick={()=>handleSubmit(baseUrl , formdata , taglist, currentMonthDataMin,
-      dTBRMin )}>
+      dTBRMin , navigate )}>
       submit</button>
     : null }
   </div>

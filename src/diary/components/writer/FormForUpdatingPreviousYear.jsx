@@ -93,7 +93,7 @@ const updatePreviousYear = (baseUrl, setChosenButton, currentMonthDaysFull, curr
       axios.post(`${baseUrl}/update_year`, data )
   
   
-  setProgress('created_year')
+  setProgress('updated previous year')
   setChosenButton('deleteCurrentMonthDaysAndExtra')
 }
 

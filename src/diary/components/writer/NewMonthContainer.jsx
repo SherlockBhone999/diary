@@ -7,18 +7,18 @@ export default function NewMonthContainer(){
   const [chosen , setChosen ] = useState('')
   const [ style , setStyle ] = useState('')
   
-  return <div>
+  return <div class='relative w-full'>
   
-  <div className={`grid ${style}`}>
+  <div className={`grid ${style} absolute top-20 w-full`}>
       <button onClick={()=>{
         setChosen('new')
         setStyle('hidden')
-      }} className='bg-blue-400 m-2 p-2 rounded shadow'>start new month </button>
+      }} className='bg-blue-400 m-2 p-10 rounded shadow'>start new month </button>
       
       <button onClick={()=>{
         setChosen('old')
         setStyle('hidden')
-      }} className='bg-blue-400 m-2 p-2 rounded shadow'>keep current month data </button>
+      }} className='bg-blue-400 m-2 p-10 rounded shadow'>keep current month data </button>
   </div>
   
   { chosen === 'old'? <FormContainer /> : null }

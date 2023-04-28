@@ -4,8 +4,8 @@ import { Context } from '../../Diary'
 import { pdfExporter } from 'quill-to-pdf'
 import axios from 'axios'
 import FormForCreateORUpdateYear from './FormForCreateORUpdateYear'
-
-
+import loadingImg from '../../../assets/Loading_icon.gif'
+import { useNavigate } from 'react-router-dom'
 
 
 const fetch = (baseUrl, setChosenButton, setCurrentMonthDaysFull, setProgress ) => {
@@ -60,6 +60,7 @@ const mergePdfsInBackend = (baseUrl, setChosenButton, setProgress ) => {
 
 
 const uploadPdfToGdrive = (baseUrl, setChosenButton, setCurrentMonthExtraData , setProgress) => {
+  setChosenButton('loading')
   axios.get(`${baseUrl}/upload_pdf_to_gdrive`)
   .then(res => {
     const gdriveLink = res.data
@@ -91,10 +92,8 @@ const deleteCurrentMonthDaysAndExtra = (baseUrl, setChosenButton, currentMonthDa
 
 const deletePdfsInBackend = (baseUrl, setChosenButton , setProgress ) => {
   axios.get(`${baseUrl}/delete_pdfs`)
-  .then(()=>{
-    setProgress('deleted_pdfs_in_backend')
-    setChosenButton('done')
-  })
+  setProgress('deleted_pdfs_in_backend')
+  setChosenButton('done')
   
 }
 
@@ -104,7 +103,7 @@ const Chosen = () => {
   const { baseUrl , currentMonthExtraData, setCurrentMonthExtraData, dTBRMin , allYearsData } = useContext(Context)
   const [ currentMonthDaysFull , setCurrentMonthDaysFull ] = useState([])
   
-
+  const navigate = useNavigate()
   const btnStyle = 'bg-blue-400 p-6 mb-4 rounded'
   
   return <div >
@@ -139,7 +138,15 @@ const Chosen = () => {
         : null }
         
         { chosenButton === 'done'?
-          <button class={btnStyle} onClick={()=>{}}>done</button>
+          <button class={btnStyle} onClick={()=>{
+            navigate('/history')
+          }}>done</button>
+        : null }
+        
+        { chosenButton === 'loading'?
+          <div class='w-40 '>
+            <img src={loadingImg} class='rounded-lg'/>
+          </div>
         : null }
       
       </div>
@@ -156,7 +163,7 @@ const Chosen = () => {
     
 
   <button class='p-4 m-4 ' onClick={()=>setChosenButton('createYear')}> hi </button>
-  <button class='p-4 m-4' onClick={()=>deletePdfsInBackend( baseUrl, setChosenButton, setProgress )}>deletePdfs</button>
+  <button class='p-4 m-4' onClick={()=>setChosenButton('loading')}>load</button>
   
   </div>
 }

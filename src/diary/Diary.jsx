@@ -98,7 +98,7 @@ export default function Diary(){
   const [ dTBRMin , setDTBRMin ] = useState([])
   //for this month and new month creating year
   const [ currentMonthExtraData , setCurrentMonthExtraData ] = useState({month : ''})
-
+  // for refetching alldata, value not matter, only the change
   
   
   useEffect(()=>{
@@ -109,6 +109,8 @@ export default function Diary(){
     fetchDTBRMin( baseUrl , setDTBRMin )
     fetchCurrentMonthExtraData( baseUrl, setCurrentMonthExtraData )
   },[])
+  
+  
   
   return <Context.Provider value={{
     baseUrl,

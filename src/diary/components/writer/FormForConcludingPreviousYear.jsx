@@ -36,26 +36,33 @@ const setImgFileToBase64 = (inputFile, setPrevYear) => {
 const handleSubmit = async (baseUrl, prevYear, setProgress, setChosenButton, setFormdata4CY ) => {
 
   const data = { img : prevYear.chosenImg }
+  setChosenButton('loading')
   
- await axios.post(`${baseUrl}/upload_img_to_cloudinary`, data )
-  .then(res => {
-    console.log('upload_img_to_cloudinary',res.data)
-    setFormdata4CY(prevv => {
-      const data = {...prevv, profile_img_link : res.data }
-      return data
-    })
-    console.log(res.data)
+  if(prevYear.chosenImg !== ''){
+      await axios.post(`${baseUrl}/upload_img_to_cloudinary`, data )
+      .then(res => {
+        console.log('upload_img_to_cloudinary',res.data)
+        setFormdata4CY(prevv => {
+          const data = {...prevv, profile_img_link : res.data }
+          return data
+        })
+        console.log(res.data)
+        setProgress('set img & comment')
+        setChosenButton('updateYear')
+      })
+      const cloudinary_id = prevYear.profile_img_link.slice(71,91)
+      axios.post(`${baseUrl}/delete_img_in_cloudinary`, {public_id : cloudinary_id })
+      
+  }else{
+    setFormdata4CY(prevYear)
+    setProgress('set img & comment')
     setChosenButton('updateYear')
-  })
+  }
   
-  const cloudinary_id = prevYear.profile_img_link.slice(71,91)
-  axios.post(`${baseUrl}/delete_img_in_cloudinary`, {public_id : cloudinary_id })
-
 }
 
 export default function App({setChosenButton, setProgress , formdata4CY, setFormdata4CY}){
   const { baseUrl, allYearsData } = useContext(Context)
- // const [ formdata4CY , setFormdata4CY ] = useState({comment : '', profile_img_link : '', chosenImg : ''})
   const [ prevYear, setPrevYear ] = useState({comment : '', chosenImg : '', profile_img_link : ''})
   
   useEffect(()=>{

@@ -1,5 +1,6 @@
 import emptyimg from '../../../assets/empty.png'
-import { useState, useEffect, useContext } from 'react'
+import loadingImg from '../../../assets/Loading_icon.gif'
+import React,{ useState, useEffect, useContext } from 'react'
 import { Context } from '../../Diary'
 import axios from 'axios'
 
@@ -21,7 +22,7 @@ const updateComment = (e,setComment) => {
   setComment(e.target.value)
 }
 
-const handleSubmit = ( baseUrl, item, comment, chosenImg) => {
+const handleSubmit = ( baseUrl, item, comment, chosenImg , setShowLoading) => {
   const cloudinary_id = item.profile_img_link.slice(71,91)
   const public_id = `diaryApp/${cloudinary_id}` 
   const data = {
@@ -34,20 +35,29 @@ const handleSubmit = ( baseUrl, item, comment, chosenImg) => {
     days_of_the_year : item.days_of_the_year,
     profile_img_link : item.profile_img_link
   }
+  setShowLoading(true)
   axios.post(`${baseUrl}/update_part_of_year`, data )
+  setTimeout(()=>{
+    window.location.reload()
+  },4000)
+    
+
+  
 }
 
-const Profile4Two = ({item}) => {
+const Profile4Two = ({item, setShowLoading}) => {
   const [ chosenImg ,setChosenImg ] = useState('')
   const [ comment, setComment ] = useState('')
-  const [ editDisabled, setEditDisabled ] = useState(false)
-  const { baseUrl } = useContext(Context)
+  const [ editDisabled, setEditDisabled ] = useState(true)
+  const { baseUrl } = useContext(Context) 
+
   
   useEffect(()=>{
     setComment(item.comment)
   },[item])
   
-  return <div >
+  return <div class='relative w-full'>
+  
       <div>
         
           <div class='flex justify-center'>
@@ -82,7 +92,7 @@ const Profile4Two = ({item}) => {
               setComment(item.comment)
             }}>Cancel</button>
             <button class='bg-blue-400 m-1 p-2 rounded ' 
-            onClick={(e)=>handleSubmit( baseUrl, item,comment, chosenImg )}>Submit</button>
+            onClick={(e)=>handleSubmit( baseUrl, item,comment, chosenImg , setShowLoading )}>Submit</button>
           </div>
         </div>
       : 
@@ -94,8 +104,10 @@ const Profile4Two = ({item}) => {
         </div>
       }
       
-      
     </div>
+    
+
+    
   </div>
 }
 
@@ -167,13 +179,23 @@ const DOTY = ({item}) => {
 }
 
 const ChartForTheYear = ({item,setItem4Month, setStyle2, setStyle3 }) => {
-  return <div class='bg-gray-500 h-full border-2 border-black rounded pt-5 pl-5'>
+  const [ showLoading , setShowLoading ] = useState(false)
+  
+  return <div class='bg-gray-500 h-full border-2 border-black rounded pt-5 pl-5 relative '>
     <button class='bg-blue-400 p-2 m-2 rounded' 
     onClick={()=>setStyle2('translate-x-full')}>Back</button>
-
-    <Profile4Two item={item}/>
-    <DOTY item={item}/>
-    <MonthButtons item={item}  setItem4Month={setItem4Month} setStyle3={setStyle3}/>
+    
+    { showLoading?
+      <div class='absolute top-0 left-0 w-full h-[50vh] flex justify-center items-center'>
+        <img src={loadingImg} class='w-40 rounded-lg ' />
+      </div>
+    : 
+      <div>
+        <Profile4Two item={item} setShowLoading={setShowLoading}/>
+        <DOTY item={item}/>
+        <MonthButtons item={item}  setItem4Month={setItem4Month} setStyle3={setStyle3}/>
+      </div>
+    }
     
   </div>
 }

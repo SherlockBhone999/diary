@@ -1,0 +1,62 @@
+
+
+our main Component - writer
+--- code will determine wherther it's new month, new year, or just a new day in current month
+if ( just a new day ) {
+--- then will see if today is to be written new or to be updated
+when submit
+--- new tag and new day_to_be_remembered will be created
+--- if new year , new year will be created , for new month? the day data is added into the  month stated in current_month_extra_data , so doesn't care if new month or not
+--- day will be added in current_month_days
+}
+else if ( new month ) {
+--- determine whether to start new month or keep writing in current month
+--- if ( start new month ) {
+      --- finalize input for previous month : resolution_fulfilled, comment
+      --- current ( previous as of today ) month data will be minimized and added into the year
+      --- pdf for the month will be generated and uploaded to google Drive
+      --- update current_month_extra_data ( like creating new month but not )
+      --- and some other small steps
+--- }
+}
+else if ( start new year ){
+--- determine whether to start new year or keep writing in current month
+--- if ( start new year ) {
+      --- finilize input for previous year : img & comment
+      --- finilize input for last month of previous year : resolution_fulfilled & comment
+      --- upload current month pdf to google Drive
+      --- minimize current month data and add into previous year 
+      --- img is uploaded to cloudinary if new 
+      --- and some other small steps
+--- }
+}
+
+this_month
+--- read and update this month days 
+--- can update current_month_extra_data
+--- data large , so need to query
+
+
+
+history
+--- can update img & comment for the year
+--- can read monthly pdf from google drive, sometimes not work in clone, then click desktop mode
+
+
+days_to_be_remembered
+--- rud
+--- creation can only be done in writer
+--- this model store big data so it also needs database query
+
+taglist
+--- crud
+--- tag recommandation for writer
+
+quotelist
+--- crud
+--- quotebox for homepage
+
+
+//memorial
+-- previous version of current_month_day model schema was super worse, couldn't do query,
+-- didn't see quillToPdf , so used quillToWord and spent 5/6 days trying to convert docx to pdf, worked after using a free api service, then while celebrating my victory, found quillToPdf, so wtf happened.

@@ -55,8 +55,7 @@ const getNewMonthObj = (currentMonthDaysFull, currentMonthExtraData ) => {
 
 const updatePreviousYear = (baseUrl, setChosenButton, currentMonthDaysFull, currentMonthExtraData, setProgress , dTBRMin , allYearsData , formdata4CY ) => {
   const date = new Date()
-  //const y = date.getFullYear() - 1
-  const y = date.getFullYear()
+  const y = date.getFullYear() - 1
   const year = y.toString()
   
       const newMonthData = getNewMonthObj( currentMonthDaysFull, currentMonthExtraData)

@@ -82,7 +82,7 @@ const deleteCurrentMonthDaysAndExtra = (baseUrl, setChosenButton, currentMonthDa
   const y = date.getFullYear()
   const thismonth = m + '.' + y 
   const dataForCMED = { _id : currentMonthExtraData._id , resolution : '', 
-  month : thismonth.toString() }
+  month : thismonth.toString(), comment : '' , resolution_fulfilled : ''}
   axios.post(`${baseUrl}/update_current_month_extra_data`, dataForCMED )
   
   setProgress('deleted_current_month_days_&_extra')

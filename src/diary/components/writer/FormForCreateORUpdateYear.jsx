@@ -56,6 +56,7 @@ const getNewMonthObj = (currentMonthDaysFull, currentMonthExtraData ) => {
 const createYear = (baseUrl, setChosenButton, currentMonthDaysFull, currentMonthExtraData, setProgress , dTBRMin , allYearsData ) => {
   const date = new Date()
   const year = date.getFullYear().toString()
+  
   //check new year or not
   const years = []
   allYearsData.map(year => {

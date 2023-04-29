@@ -23,7 +23,12 @@ const updateComment = (e,setComment) => {
 }
 
 const handleSubmit = ( baseUrl, item, comment, chosenImg , setShowLoading) => {
-  const cloudinary_id = item.profile_img_link.slice(71,91)
+  var cloudinary_id = ''
+  if(!item.profile_img_link || item.profile_img_link === ''){
+    cloudinary_id = ''
+  }else{
+    cloudinary_id = item.profile_img_link.slice(71,91)
+  }
   const public_id = `diaryApp/${cloudinary_id}` 
   const data = {
     newImg : chosenImg,

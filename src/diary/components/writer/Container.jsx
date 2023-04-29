@@ -9,7 +9,7 @@ import axios from 'axios'
 
 const date = new Date()
 //const m = date.getMonth() + 1 
-const m = date.getMonth() 
+const m = date.getMonth() + 1
 //const y = date.getFullYear()
 const y = date.getFullYear() 
 const thisMonth = m + '.' + y
@@ -58,7 +58,6 @@ export default function Container() {
   },[writerMode])
 
   return <div>
-    {JSON.stringify(currentMonthDataMin)}
     <button onClick={()=>navigate('/')}>back</button>
   
     {isNew === 'new_month'? <NewMonthContainer /> : null }

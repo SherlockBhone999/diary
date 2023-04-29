@@ -14,7 +14,11 @@ const isAlreadyExist = (str, array) => {
   }
 }
 
-const colorsList = ['bg-green-500', 'bg-yellow-300', 'bg-orange-500', 'bg-sky-400', 'bg-rose-400', 'bg-indigo-500']
+const colorsList = ['bg-green-500', 'bg-yellow-300', 'bg-orange-500', 'bg-sky-400', 'bg-rose-400', 'bg-indigo-500', 'bg-lime-400', 'bg-cyan-400', 'bg-teal-400','bg-stone-500', 
+'bg-pink-500', 'bg-slate-500', 'bg-violet-500', 'bg-fuchsia-400', 'bg-amber-500', 'bg-orange-700', 'bg-rose-700','bg-indigo-700', 'bg-emerald-700', 'bg-gray-700', 
+'bg-pink-700', 'bg-blue-700', 'bg-green-700', 'bg-red-700', 'bg-slate-700', 'bg-violet-700','bg-teal-700', 'bg-amber-700', 'bg-zinc-700', 'bg-purple-700', 
+'bg-cyan-700', 'bg-yellow-700', 'bg-neutral-700', 'bg-fuchsia-700', 'bg-sky-700','bg-lime-700', 'bg-stone-700', 'bg-blue-400', 'bg-lime-200', 'bg-cyan-900'
+]
 
 const ChartForTheMonth = ({item, setStyle3}) => {
   const [ pieDataBtoSList , setPieDataBtoSList ] = useState([])
@@ -107,55 +111,3 @@ const ChartForTheMonth = ({item, setStyle3}) => {
 
 export default ChartForTheMonth
 
-/*
-const ChartForTheMonth = ({chosenMonth, pieChartLabels}) => {
-  const navigate = useNavigate()
-  return <div class='flex '>
-    <div class='bg-gray-200 w-80 h-80  mr-2 overflow-scroll relative' >
-      <p>{chosenMonth.month}</p>
-      <p>resolution : {chosenMonth.resolution}</p>
-      <p>resolution_fullfilled : {chosenMonth.resolution_fulfilled}</p>
-      
-      <div>
-        <p>my_comment :</p>
-        <textarea value={chosenMonth.comment}/>
-      </div>
-      
-      <div class='grid'>
-        <p>my thoughts during the month : </p>
-        {
-          chosenMonth.thoughts.map(str => <p>
-            {str}
-          </p>)
-        }
-      </div>
-      
-      <div class='absolute bottom-0 right-0'>
-        <a class='bg-red-600 text-white m-2 p-2 rounded' href="https://drive.google.com/file/d/1ynnMemPS17kE02O0vAnW83026PRQ6I7b/view" > Read </a>
-      </div>
-    </div>
-    
-    
-    
-    
-    
-    <div class='bg-gray-200 w-80 h-80 flex flex-auto overflow-scroll'>
-      <div class='grid'>
-        <PieChart pieData={chosenMonth.pie_data}/>
-            
-        <div>
-          {pieChartLabels.map(item => 
-            <div class='flex m-1'>
-            <div class={`w-5 h-5 ${item.color}`}> </div>
-            <p class='pl-2'>{item.tag}</p>
-          </div>) }
-        </div>
-      </div>
-    </div>
-  </div>
-}
-
-
-export default ChartForTheMonth
-
-*/

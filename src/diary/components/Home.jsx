@@ -1,5 +1,5 @@
 
-import { useState, useContext} from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Context } from '../Diary'
 
@@ -21,9 +21,19 @@ const Menu = () => {
 }
 
 const QuoteBox = () => {
+  const {quotelist} = useContext(Context)
+  const [chosenQuote, setChosenQuote ] = useState({text : '', by_who : ''})
+  
+  useEffect(()=>{
+    if(quotelist.length !== 0 ){
+      const randomNumber = Math.floor( Math.random()* quotelist.length )
+      setChosenQuote(quotelist[randomNumber])
+    }
+  },[quotelist])
+  
   return <div class='bg-yellow-50 w-80 m-2 p-3 rounded border-2 border-black shadow'>
-    <p>There is No Tomorrow There is No Tomorrow</p>
-    <p class='flex justify-end'>By Ricky Coach</p>
+    <p>{chosenQuote.text}</p>
+    <p class='flex justify-end'> {chosenQuote.by_who}</p>
   </div>
 }
 
@@ -36,7 +46,7 @@ const Main = ({style4Menu, setStyle4Menu }) => {
       <button onClick={()=>{
         if(style4Menu === 'w-0') setStyle4Menu('w-40') 
         else{ setStyle4Menu('w-0') }
-      }}>click</button>
+      }}>Menu</button>
     </div>
     
     <div class='absolute top-40 w-full'>
@@ -55,7 +65,7 @@ const Main = ({style4Menu, setStyle4Menu }) => {
 }
 
 
-export default function Page1(){
+export default function Home(){
   const [ style4Menu, setStyle4Menu ] = useState('w-0')
   return <div class=''>
 
@@ -77,55 +87,3 @@ export default function Page1(){
 
 
 
-/*
-
-export default function Home(){
-  const navigate = useNavigate()
-  
-  return <div>
-  
-    <div>
-      quotebox
-    </div>
-    
-    <div>
-      <button onClick={()=>{
-        navigate('/write')
-      }}>write </button>
-    </div>
-    
-    <div>
-      <button onClick={()=>{
-        navigate('/history')
-      }}>history</button>
-    </div>
-    
-    <div>
-      <button onClick={()=>{
-        navigate('/quotes')
-      }}>quotes</button>
-    </div>
-    
-    <div>
-      <button onClick={()=>{
-        navigate('/days_to_be_remembered')
-      }}>Days to be remembered</button>
-    </div>
-    
-    <div>
-      <button onClick={()=>{
-        navigate('/tags')
-      }}>tags</button>
-    </div>
-
-    <div>
-      <button onClick={()=>{
-        navigate('/this_month')
-      }}>this_month</button>
-    </div>
-    
-    
-  </div>
-}
-
-*/

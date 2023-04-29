@@ -3,7 +3,7 @@ import { Context } from '../../Diary'
 import axios from 'axios'
 
 
-export default function List({setItemToFetch, setSideStyle }) {
+export default function List({setItemToFetch, setSideStyle , setSideStyle2 }) {
   const { currentMonthDataMin} = useContext(Context)
   
   
@@ -14,6 +14,7 @@ export default function List({setItemToFetch, setSideStyle }) {
         onClick={()=>{
           setItemToFetch(day)
           setSideStyle('')
+          setSideStyle2('translate-x-full')
         } }>{day.day}</button>
       </div>)}
     </div>

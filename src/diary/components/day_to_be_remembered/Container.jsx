@@ -30,7 +30,7 @@ export default function Container () {
     setFormdata(null)
   },[itemToFetchFull])
 
-  return <div>
+  return <div class='bg-gray-600'>
     <button class='bg-blue-400 m-2 p-2 rounded'
     onClick={()=>navigate('/')}>Home</button>
           
@@ -40,7 +40,7 @@ export default function Container () {
         <List list={dTBRMin} setItemToFetch={setItemToFetch} />
       </div> 
   
-      <div class='w-9/12 bg-gray-400 h-screen overflow-hidden'>
+      <div class='w-9/12 bg-gray-400 h-screen border-2 border-black overflow-hidden'>
         <MainContainer itemToFetch={itemToFetchFull} 
         chosen={chosenComponentForWriterContainer} 
         setChosen={setChosen}/>

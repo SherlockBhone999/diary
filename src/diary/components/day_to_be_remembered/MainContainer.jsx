@@ -2,15 +2,10 @@ import loadingGif from '../../../assets/Loading_icon.gif'
 import { useState, useEffect , useContext } from 'react'
 import {Context} from '../../Diary'
 import axios from 'axios'
-//import FormContainer from './FormContainer'
 import FormContainer from './FormContainer'
 
-import {allData} from '../../fakedata2'
-const {daysToBeRemembered} = allData
 
-const deltaa = {"ops":[{insert:"Bhone"},{ attributes:{bold:true},insert:"5.4.2023Text"},{attributes:{link:"https://www.google.com"},insert:"Google"},{insert:{image:"https://octodex.github.com/images/labtocat.png"}},{insert:"\n"},{insert:{video:"https://www.youtube.com/embed/tgbNymZ7vqY"}}]}
 
- 
 const LoadingDiv = () => {
   return <div class='h-screen'>
       <div class='flex justify-center h-full relative'>
@@ -32,13 +27,6 @@ const fetchItem = (baseUrl, setFormdata , setChosen, itemToFetch) => {
   })
 }
  
-const test = (itemToFetch, setFormdata , setChosen ) => {
-  
-  setTimeout(()=>{
-    setFormdata({delta_data : itemToFetch.delta_data })
-    setChosen('item_fetched')
-  },1000)  
-} 
 
 const FetchButton = ({setChosen, itemToFetch }) => {
   const {baseUrl , setFormdata } = useContext(Context)
@@ -50,7 +38,6 @@ const FetchButton = ({setChosen, itemToFetch }) => {
             setChosen('loading')
             fetchItem(baseUrl, setFormdata , setChosen , itemToFetch )
             
-            //test(itemToFetch, setFormdata , setChosen )
           } }>fetch {itemToFetch.day}</button>
         </div>
       </div>

@@ -9,7 +9,7 @@ import axios from 'axios'
 
 const date = new Date()
 //const m = date.getMonth() + 1 
-const m = date.getMonth() + 1
+const m = date.getMonth() 
 //const y = date.getFullYear()
 const y = date.getFullYear() 
 const thisMonth = m + '.' + y

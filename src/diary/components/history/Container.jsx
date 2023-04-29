@@ -49,7 +49,7 @@ export default function Container(){
   }
 }}>Click3</button>
 */}
- <div class='flex'>
+ <div class='flex bg-gray-600'>
     <button onClick={()=>navigate('/')} class='m-2 p-2 bg-blue-400 rounded'>Home</button>
   </div>
   

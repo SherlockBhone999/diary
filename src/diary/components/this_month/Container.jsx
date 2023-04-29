@@ -27,6 +27,7 @@ export default function Container(){
   const [ chosenComponentForWriterContainer , setChosen ] = useState('initial')
   const { setFormdata , setWriterMode } = useContext(Context)
   const [ sideStyle, setSideStyle ] = useState('')
+  const [ sideStyle2 , setSideStyle2 ] = useState('translate-x-full')
   const navigate = useNavigate()
 
   useEffect(()=>{
@@ -34,7 +35,7 @@ export default function Container(){
     setFormdata(null)
   },[itemToFetchFull])
   
-  return <div>
+  return <div class='bg-gray-600'>
 
     <button class='bg-blue-400 m-2 p-2 rounded '
       onClick={()=>{
@@ -43,14 +44,15 @@ export default function Container(){
       setWriterMode('write_new')
     }}>Home</button>
         
-  <div class='relative'>
+  <div class='relative overflow-hidden '>
     
-      <div class='w-screen bg-gray-400 h-screen overflow-hidden'>
+      <div class='w-screen bg-gray-500 h-screen overflow-hidden'>
 
         
           <button class='bg-blue-400 m-2 p-2 rounded'
           onClick={()=>{
-            setSideStyle('translate-x-full')
+            setSideStyle('translate-x-full ')
+            setSideStyle2('')
           }}>Menu</button>
 
         
@@ -64,22 +66,29 @@ export default function Container(){
     
     
     
-      <div class={`absolute w-3/12 h-screen bg-slate-300 top-0 right-[100%] transition duration-500 overflow-scroll ${sideStyle}`}>
+      <div class={`absolute w-3/12 h-screen bg-slate-300 top-0 right-[100%] transition duration-500 overflow-scroll border-2 border-black ${sideStyle}`}>
 
         <button class='bg-blue-400 m-2 p-2 rounded'
         onClick={()=>{
           setSideStyle('')
+          setSideStyle2('translate-x-full')
         }}>back</button>
         
-        <List setItemToFetch={setItemToFetch} setSideStyle={setSideStyle}/>
+        <List setItemToFetch={setItemToFetch} 
+        setSideStyle={setSideStyle}
+        setSideStyle2={setSideStyle2}/>
 
-        <ExtraData />
-          
       </div>
       
-
       
-    </div> 
+      <div class={`absolute top-0 right-0 w-9/12 h-screen transition duration-500 ${sideStyle2}`}>
+        <ExtraData />
+      </div>
+    
+      
+    </div>
+      
+  
     
   </div>
 }
